@@ -4,7 +4,7 @@ namespace MailGateway.Services
 {
     public interface IEmailReaderService
     {
-        List<EmailDTO> LeerMensajesRecibidos();
-        EmailDTO DetalleCorreo(uint id);
+        List<EmailDTOa> LeerMensajesRecibidos();
+        EmailDTOa DetalleCorreo(uint id);
     }
 }

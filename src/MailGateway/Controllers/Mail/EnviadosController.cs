@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.DTOS;
 using MailGateway.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,14 +16,13 @@ namespace MailGateway.Controllers.Mail
         {
             var messages = _emailReaderMessageService.LeerMensajesEnviados();
             return View(messages);
-            
+
         }
-        //public IActionResult ReadMail(string uid)
-        //{
-        //    string uidDesencriptado = CryptoHelper.Decrypt(uid);
-        //    uint uidValor = uint.Parse(uidDesencriptado);
-        //    var correo = _emailReaderMessageService.DetalleMensajesEnviados(uidValor);
-        //    return View("~View/Home/ReadMail.cshtml", correo);
-        //}
+        public IActionResult Detalle()
+        {
+    
+            return View();
+
+        }
     }
 }

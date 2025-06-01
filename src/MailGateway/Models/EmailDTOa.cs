@@ -1,6 +1,6 @@
 ﻿namespace MailGateway.Models
 {
-    public class EmailDTO
+    public class EmailDTOa
     {
         public string Uid { get; set; } // Identificador único del correo, puede ser un ID de base de datos o un UID de MailKit
         public string De { get; set; } = string.Empty!;

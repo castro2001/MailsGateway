@@ -1,16 +1,16 @@
-﻿using MailGateway.DAO;
+﻿using Application.Interfaces;
+using Application.DTOS;
 using MailGateway.Models;
-using MailGateway.Services; 
 using Microsoft.AspNetCore.Mvc;
 
 namespace MailGateway.Controllers
 {
     public class RedactarController : Controller
     {
-        private readonly IEmailServices _emailService;
-        public RedactarController(IEmailServices emailServices)
+        private readonly IEmailSenderService _emailSenderService;
+        public RedactarController(IEmailSenderService emailSenderService)
         {
-            _emailService = emailServices; 
+            _emailSenderService = emailSenderService; 
         }
         public IActionResult Redactar()
         {
@@ -19,7 +19,7 @@ namespace MailGateway.Controllers
         }
 
         [HttpPost]
-        public IActionResult Redactar(EmailDAO emailDAO)
+        public IActionResult Redactar(EmailDTO emailDAO)
         {
           
             if(string.IsNullOrWhiteSpace(emailDAO.Para)) { 
@@ -45,13 +45,13 @@ namespace MailGateway.Controllers
                 Contenido = emailDAO.Contenido
             };
 
-            var resultado = _emailService.SendEmail(email);
+            var resultado = _emailSenderService.SendEmail(email);
 
             if (resultado.Success)
             {
                 // Guardar correo enviado
                 ViewBag.Success = "Correo enviado correctamente. " ;
-                return View(new EmailDAO());
+                return View(new EmailDTO());
             }
             else {
                 ViewBag.Error = $"Error al enviar correo: {resultado.ErrorMessage}";

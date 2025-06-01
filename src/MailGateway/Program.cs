@@ -1,12 +1,18 @@
-using MailGateway.Services;
+using Application.Interfaces;
+using Infrastructure.Services.Mail;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IEmailServices, EmailServices>(); // Register the email service
+
+builder.Services.AddScoped<IEmailConnectionProvider, EmailConnectionProvider>(); // Register the email service
+builder.Services.AddScoped<IEmailSenderService, EmailSendServices>(); // Register the email service
 builder.Services.AddScoped<IEmailReaderService, EmailReaderService>(); // Register the email service
+builder.Services.AddScoped<IEmailReaderMessageService, EmailReaderMessageService>(); // Register the email service
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,8 +1,8 @@
 using MailGateway.Models;
-using MailGateway.Services;
+using Application.Interfaces;
+using Application.DTOS;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Net.NetworkInformation;
 using MailGateway.Helpers;
 namespace MailGateway.Controllers
 {

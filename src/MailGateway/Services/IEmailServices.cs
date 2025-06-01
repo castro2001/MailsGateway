@@ -4,6 +4,6 @@ namespace MailGateway.Services
 {
     public interface IEmailServices
     {
-        EmailResponse SendEmail(EmailDTO request);
+        EmailResponse SendEmail(EmailDTOa request);
     }
 }

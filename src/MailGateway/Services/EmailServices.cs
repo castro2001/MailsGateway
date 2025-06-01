@@ -15,7 +15,7 @@ namespace MailGateway.Services
         {
             _configuration = configuration;
         }
-        public EmailResponse SendEmail(EmailDTO request)
+        public EmailResponse SendEmail(EmailDTOa request)
         {
             var email = new MimeMessage();//Create a new MimeMessage instance
             

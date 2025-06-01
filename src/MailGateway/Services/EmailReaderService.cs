@@ -20,9 +20,9 @@ namespace MailGateway.Services
             //_context = context;
         }
 
-        public List<EmailDTO> LeerMensajesRecibidos()
+        public List<EmailDTOa> LeerMensajesRecibidos()
         {
-            var mensajes = new List<EmailDTO>();
+            var mensajes = new List<EmailDTOa>();
             using var client = new ImapClient();
             client.Connect(
                 _configuration.GetSection("Email:Imap").Value,
@@ -49,7 +49,7 @@ namespace MailGateway.Services
             {
                 var mensaje = inbox.GetMessage(uid);
                 uint id = uid.Id;
-                mensajes.Add(new EmailDTO
+                mensajes.Add(new EmailDTOa
                 {
                     Uid =id.ToString() ,
                     De = mensaje.From.ToString(),
@@ -66,7 +66,7 @@ namespace MailGateway.Services
             return mensajes;
         }
 
-        public EmailDTO DetalleCorreo(uint id)
+        public EmailDTOa DetalleCorreo(uint id)
         {
             var client = new ImapClient();
             client.Connect(
@@ -86,7 +86,7 @@ namespace MailGateway.Services
                 var uid = new UniqueId(id);
                 var mensaje = inbox.GetMessage(uid);
 
-                var detalle = new EmailDTO
+                var detalle = new EmailDTOa
                 {
                     Para = mensaje.To.ToString(),
                     De = mensaje.From.ToString(),
