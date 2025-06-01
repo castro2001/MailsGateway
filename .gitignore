@@ -1,0 +1,40 @@
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Build results
+bin/
+obj/
+build/
+[Bb]uild/
+[Ll]og/
+*.log
+
+## NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Rider
+.idea/
+*.sln.iml
+
+## Others
+*.dbmdl
+*.bak
+*.cache
+*.pdb
+*.swp
+
+# ASP.NET
+wwwroot/
+node_modules/

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Domain.Entidades.Mail.Email>
+@using MailGateway.Helpers;
+@{
+    ViewData["HeaderTitle"] = " Mensaje Enviados ";
+    ViewData["Title"] ="Mensajes" ;
+    ViewData["CardTitle"] = "Mennsajes Enviados";
+    ViewBag.IsSearch = 0;
+    ViewData["LinkController"] = "Home";
+    ViewData["LinkAction"] = "Index";
+    ViewData["LinkText"] = "Volver a la bandeja de entrada";
+}
+
+<div class="card-body p-0">
+
+    <div class="table-responsive mailbox-messages">
+        <table class="table table-hover table-striped">
+            <tbody>
+                @foreach (var email in Model)
+                {
+                    <tr onclick="window.location.href='@Url.Action("ReadMail", "Home", new { uid = CryptoHelper.Encrypt(email.Uid) })'" style="cursor:pointer;">
+
+                        <td>
+                            <div class="icheck-primary">
+                                <input type="checkbox" value="" id="check1">
+                                <label for="check1"></label>
+                            </div>
+                        </td>
+                        <td class="mailbox-star">
+
+                            <i class="fas fa-star text-warning"></i>
+
+                        </td>
+                        <td class="mailbox-name">@email.Para</td>
+                        <td class="mailbox-subject">
+                            <b>@email.Asunto</b>
+                        </td>
+                        <td class="mailbox-attachment"></td>
+                        <td class="mailbox-date">@email.Fecha</td>
+
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
