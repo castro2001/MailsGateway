@@ -18,11 +18,12 @@ namespace MailGateway.Controllers.Mail
             return View(messages);
 
         }
-        public IActionResult Detalle()
+        public IActionResult Detalle(string uid)
         {
-    
-            return View();
-
+            string uidDesencriptado = CryptoHelper.Decrypt(uid);
+            uint uidValor = uint.Parse(uidDesencriptado);
+            var correo = _emailReaderMessageService.DetalleMensajesEnviados(uidValor);
+            return View(correo);
         }
     }
 }

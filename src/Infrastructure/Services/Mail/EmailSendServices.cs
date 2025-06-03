@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Text;
 using System;
+using Application.DTO;
 
 
 namespace Infrastructure.Services.Mail
@@ -13,11 +14,13 @@ namespace Infrastructure.Services.Mail
     {
         private readonly IConfiguration _configuration;
         private readonly IEmailConnectionProvider _emailConnectionProvider;
+        private readonly INotificationStore _notificationStore;
 
-        public EmailSendServices(IConfiguration configuration, IEmailConnectionProvider emailConnectionProvider)
+        public EmailSendServices(IConfiguration configuration, IEmailConnectionProvider emailConnectionProvider, INotificationStore notificationStore)
         {
             _configuration = configuration;
             _emailConnectionProvider = emailConnectionProvider;
+            _notificationStore = notificationStore;
         }
         public EmailResponse SendEmail(EmailDTO request)
         {
@@ -32,9 +35,18 @@ namespace Infrastructure.Services.Mail
                 using var smtp = _emailConnectionProvider.GetSmtpClient();
                 smtp.Send(email);
                 smtp.Disconnect(true); //Disconnect from the SMTP server
+                //Agrego a notificación al store
+                var notification = new NotificationDTO {
+                    Titulo = "Nuevo mensaje recibido",
+                    Mensaje = $"El correo a {request.Para} se ha enviado correctamente.",
+                    Icono = "fas fa-envelope",
+                    Url = "/Enviados/Index", // URL to redirect to after sending the email
+                };
+                _notificationStore.Agregar(notification);
                 return new EmailResponse
                 {
                     Success = true,
+                    Asunto = request.Asunto,
                     MessageId = email.MessageId // Return the message ID of the sent email
                 };
 

@@ -4,17 +4,21 @@ using Application.DTOS;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using MailGateway.Helpers;
+using Application.Interfaces.Helper;
 namespace MailGateway.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IEmailReaderService _emailReaderService;
+       
 
-        public HomeController(ILogger<HomeController> logger, IEmailReaderService emailReaderService)
+        public HomeController(ILogger<HomeController> logger, IEmailReaderService emailReaderService
+            )
         {
             _logger = logger;
-            _emailReaderService = emailReaderService; 
+            _emailReaderService = emailReaderService;
+            
         }
 
         public IActionResult Index()
@@ -23,7 +27,7 @@ namespace MailGateway.Controllers
             return View(correos);
         }
 
-        public IActionResult ReadMail( string uid )
+        public IActionResult Detalle( string uid )
         {
             string uidDesencriptado = CryptoHelper.Decrypt(uid);
             uint uidValor = uint.Parse(uidDesencriptado);

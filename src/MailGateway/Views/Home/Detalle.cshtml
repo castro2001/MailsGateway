@@ -1,0 +1,30 @@
+﻿@model Domain.Entidades.Mail.Email
+@{
+    ViewData["HeaderTitle"] = "Leer Mensaje ";
+    ViewData["Title"] = @Model.Asunto;
+    ViewData["CardTitle"] = @Model.Asunto;
+    ViewBag.IsSearch = 0;
+    ViewData["LinkController"] = "Home";
+    ViewData["LinkAction"] = "Index";
+    ViewData["LinkText"] = "Volver a la bandeja de entrada";
+}
+
+
+<!-- /.card-body -->
+<!-- Aquí llamas el partial pasando el modelo -->
+@Html.Partial("~/Views/Shared/Mail/_Detalle.cshtml", Model)
+<!-- /.card-footer -->
+<div class="card-footer">
+    <div class="float-right">
+        <button type="button" class="btn btn-default"><i class="fas fa-reply"></i> Responder</button>
+        <button type="button" class="btn btn-default"><i class="fas fa-share"></i> Reenviar</button>
+    </div>
+@*     <button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i> Delete</button>
+    <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button> *@
+</div>
+
+@section Scripts {
+    <script>
+        console.log(@Model);
+    </script>
+}

@@ -2130,6 +2130,19 @@
         "runtime": {
           "bin/placeholder/Infrastructure.dll": {}
         }
+      },
+      "Shared/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Application": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Shared.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Shared.dll": {}
+        }
       }
     }
   },
@@ -5891,6 +5904,11 @@
       "type": "project",
       "path": "../Infrastructure/Infrastructure.csproj",
       "msbuildProject": "../Infrastructure/Infrastructure.csproj"
+    },
+    "Shared/1.0.0": {
+      "type": "project",
+      "path": "../Shared/Shared.csproj",
+      "msbuildProject": "../Shared/Shared.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -5898,7 +5916,8 @@
       "Application >= 1.0.0",
       "Infrastructure >= 1.0.0",
       "MailKit >= 4.12.1",
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 8.0.7"
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 8.0.7",
+      "Shared >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -5939,6 +5958,9 @@
             },
             "C:\\Users\\Jordan Castro\\Documents\\GitHub\\MailsGateway\\src\\Infrastructure\\Infrastructure.csproj": {
               "projectPath": "C:\\Users\\Jordan Castro\\Documents\\GitHub\\MailsGateway\\src\\Infrastructure\\Infrastructure.csproj"
+            },
+            "C:\\Users\\Jordan Castro\\Documents\\GitHub\\MailsGateway\\src\\Shared\\Shared.csproj": {
+              "projectPath": "C:\\Users\\Jordan Castro\\Documents\\GitHub\\MailsGateway\\src\\Shared\\Shared.csproj"
             }
           }
         }

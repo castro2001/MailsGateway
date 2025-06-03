@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<Domain.Entidades.Mail.Email>
-@using MailGateway.Helpers; 
+@using MailGateway.Helpers;
+@using Shared.Helper;
 
 @{
     ViewData["Title"] = "Bandeja de Entrada";
     ViewData["HeaderTitle"] = "Bandeja de Entrada";
-
-    
     ViewData["CardTitle"] = "Recibidos";
     ViewBag.IsSearch = 1;
     ViewData["LinkController"] = "Redactar";
@@ -16,47 +15,14 @@
 
             <!-- /.card-header -->
 <div class="card-body p-0">
-           @*    <div class="mailbox-controls">
-                <!-- Check all button -->
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
-                </button>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="far fa-trash-alt"></i>
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-reply"></i>
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-share"></i>
-                  </button>
-                </div>
-                <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm">
-                  <i class="fas fa-sync-alt"></i>
-                </button>
-                <div class="float-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
-                  <!-- /.btn-group -->
-                </div>
-                <!-- /.float-right -->
-              </div>
-            *@
+
               <div class="table-responsive mailbox-messages">
                 <table class="table table-hover table-striped">
                   <tbody>
                 @foreach (var email in Model)
                 {
                    
-                    <tr onclick="window.location.href='@Url.Action("ReadMail", "Home", new { uid = CryptoHelper.Encrypt(email.Uid) })'" style="cursor:pointer;">
+                    <tr onclick="window.location.href='@Url.Action("Detalle", "Home", new { uid = CryptoHelper.Encrypt(email.Uid) })'" style="cursor:pointer;">
                     
                         <td>
                             <div class="icheck-primary">
@@ -74,7 +40,7 @@
                             <b>@email.Asunto</b>
                         </td>
                         <td class="mailbox-attachment"></td>
-                        <td class="mailbox-date">@email.Fecha</td>
+                        <td class="mailbox-date">@FechaHelper.FormatearHora(email.Fecha)</td>
                        
                     </tr>
                 }

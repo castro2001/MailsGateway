@@ -11,10 +11,12 @@ namespace Infrastructure.Services.Mail
     {
         private readonly IConfiguration _configuration;
         private readonly IEmailConnectionProvider _emailConnectionProvider;
-        public EmailReaderService(IConfiguration configuration, IEmailConnectionProvider emailConnectionProvider)
+        private readonly INotificationStore _notificationStore;
+        public EmailReaderService(IConfiguration configuration, INotificationStore notificationStore, IEmailConnectionProvider emailConnectionProvider)
         {
             _configuration = configuration;
             _emailConnectionProvider = emailConnectionProvider;
+            _notificationStore = notificationStore;
         }
      
         public List<Email> LeerMensajesRecibidos()
@@ -32,8 +34,30 @@ namespace Infrastructure.Services.Mail
             var uids = inbox.Search(SearchQuery.DeliveredAfter(horaInicio));
             foreach (var uid in uids)
             {
-                var mensaje = inbox.GetMessage(uid);
+                //Aqui se va a guardar el mensaje en la base de datos
+                //Despues
+
                 uint id = uid.Id;
+                var mensaje = inbox.GetMessage(uid);
+                // Encabezados completos
+                var headers = mensaje.Headers;
+                // Extraer valores específicos
+                string enviadoPor = headers["X-Sender"] ?? headers["Return-Path"] ?? "";
+                string firmadoPor = headers["DKIM-Signature"]?.Split("d=")[1]?.Split(';')[0]?.Trim() ?? "";
+                string seguridad = headers["Received"]?.Contains("TLS") == true ? "Cifrado estándar (TLS)" : "Sin cifrado";
+                // Obtener todos los encabezados
+                var todosLosEncabezados = mensaje.Headers;
+                _notificationStore.Agregar(new SentMessage {
+                    Id =  id.ToString(),
+                    MessageId = mensaje.MessageId,
+                    Para = mensaje.To.ToString(),
+                    Asunto = mensaje.Subject,
+                    FechaEnvio = mensaje.Date.DateTime
+                });
+
+                _notificationStore.VerificarYNotificarRespuesta(mensaje.InReplyTo, mensaje.From.ToString());
+
+
                 mensajes.Add(new Email
                 {
                     Uid = id.ToString(),
@@ -41,13 +65,18 @@ namespace Infrastructure.Services.Mail
                     Para = mensaje.To.ToString(),
                     Asunto = mensaje.Subject,
                     Contenido = mensaje.HtmlBody ?? mensaje.TextBody,
-                    Fecha = mensaje.Date.DateTime
+                    Fecha = mensaje.Date.DateTime,
+                    InReplyTo = mensaje.InReplyTo,
+                    EnviadoPor = enviadoPor,
+                    FirmadoPor = firmadoPor,
+                    Seguridad = seguridad
 
                 });
             }
             client.Disconnect(true);
 
-
+            // Ordena los mensajes del más reciente al más antiguo
+            mensajes = mensajes.OrderByDescending(m => m.Fecha).ToList();
             return mensajes;
         }
 
@@ -61,17 +90,33 @@ namespace Infrastructure.Services.Mail
             var uid = new UniqueId(id);
             var mensaje = inbox.GetMessage(uid);
 
+            // Encabezados completos
+            var headers = mensaje.Headers;
+
+            // Extraer valores específicos
+            string enviadoPor = headers["X-Sender"] ?? headers["Return-Path"] ?? "";
+            string firmadoPor = headers["DKIM-Signature"]?.Split("d=")[1]?.Split(';')[0]?.Trim() ?? "";
+            string seguridad = headers["Received"]?.Contains("TLS") == true ? "Cifrado estándar (TLS)" : "Sin cifrado";
+          
+       
+
             var detalle = new Email
             {
                 Para = mensaje.To.ToString(),
                 De = mensaje.From.ToString(),
                 Asunto = mensaje.Subject,
                 Contenido = mensaje.HtmlBody ?? mensaje.TextBody,
-                Fecha = mensaje.Date.DateTime
+                Fecha = mensaje.Date.DateTime,
+                InReplyTo = mensaje.InReplyTo,
+                EnviadoPor = enviadoPor,
+                FirmadoPor = firmadoPor,
+                Seguridad = seguridad
             };
 
             client.Disconnect(true);
-
+            // Ordenar del más reciente al más antiguo
+            
+             
             return detalle;
         }
 

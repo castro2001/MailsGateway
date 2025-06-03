@@ -28,20 +28,20 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
+[C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Enviados/Detalle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW52aWFkb3NcRGV0YWxsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Enviados/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW52aWFkb3NcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Enviados/View.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW52aWFkb3NcVmlldy5jc2h0bWw=
+[C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Home/Detalle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEZXRhbGxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Home/ReadMail.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWFkTWFpbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Redactar/Redactar.cshtml]
@@ -50,6 +50,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Shared/Mail/_Detalle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE1haWxcX0RldGFsbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Shared/_NavBar.cshtml]

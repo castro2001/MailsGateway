@@ -1,0 +1,14 @@
+﻿
+@model Domain.Entidades.Mail.Email
+@{
+    ViewData["HeaderTitle"] = "Detalle Mensaje ";
+    ViewData["Title"] = @Model.Asunto;
+    ViewData["CardTitle"] = @Model.Asunto;
+    ViewBag.IsSearch = 0;
+    ViewData["LinkController"] = "Enviados";
+    ViewData["LinkAction"] = "Index";
+    ViewData["LinkText"] = "Volver a la bandeja de entrada";
+}
+<!-- Aquí llamas el partial pasando el modelo -->
+@Html.Partial("~/Views/Shared/Mail/_Detalle.cshtml", Model)
+

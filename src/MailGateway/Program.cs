@@ -12,6 +12,7 @@ builder.Services.AddScoped<IEmailConnectionProvider, EmailConnectionProvider>();
 builder.Services.AddScoped<IEmailSenderService, EmailSendServices>(); // Register the email service
 builder.Services.AddScoped<IEmailReaderService, EmailReaderService>(); // Register the email service
 builder.Services.AddScoped<IEmailReaderMessageService, EmailReaderMessageService>(); // Register the email service
+builder.Services.AddScoped<INotificationStore, NotificationStoreServices>(); // Register the email service
 
 var app = builder.Build();
 

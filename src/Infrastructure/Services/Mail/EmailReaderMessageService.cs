@@ -71,7 +71,9 @@ namespace Infrastructure.Services.Mail
                 });
             }
             client.Disconnect(true);
-
+            // Ordena los mensajes del más reciente al más antiguo
+            mensajes = mensajes.OrderByDescending(m => m.Fecha).ToList();
+            
 
             return mensajes;
 

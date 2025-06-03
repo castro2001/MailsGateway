@@ -11,5 +11,13 @@ namespace Domain.Entidades.Mail
 
         public string Contenido { get; set; } = string.Empty!;
         public DateTime Fecha { get; set; } = DateTime.Now; // Fecha por defecto al momento de crear el objeto
+        public string InReplyTo { get; set; } = string.Empty!;
+         
+        public string EnviadoPor { get; set; } = string.Empty!;
+
+        // Dominio con firma DKIM (puede usarse como "firmado por")
+        public string FirmadoPor { get; set; } = string.Empty!;
+        // Nivel de seguridad (TLS, etc.)
+        public string Seguridad { get; set; } = string.Empty!;
     }
 }
