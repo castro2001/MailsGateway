@@ -1,0 +1,68 @@
+﻿@model Application.DTO.UsuarioDTO;
+@{
+    Layout = "~/Views/Shared/Acceso/_Layout.cshtml";
+}
+<form action="../../index.html" method="post">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" asp-for="Nombre" placeholder="Nombre">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-user"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" asp-for="Apellido" placeholder="Apellido">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-user"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-group mb-3">
+        <input type="email" class="form-control" asp-for="CorreoElectronico"  placeholder="Email">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+            </div>
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <input type="password" class="form-control" asp-for="Clave" placeholder="Password">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+            </div>
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <input type="password" class="form-control" asp-for="RepetirClave" placeholder="Retype password">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+ @*        <div class="col-8">
+            <div class="icheck-primary">
+                <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                <label for="agreeTerms">
+                    I agree to the <a href="#">terms</a>
+                </label>
+            </div>
+        </div> *@
+        <!-- /.col -->
+        <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </div>
+        <!-- /.col -->
+    </div>
+</form>
+
+<p class="mb-1">
+    <a asp-controller="Acceso" asp-action="Login" class="text-center">  Ya tengo una membresía</a>
+</p>
+      

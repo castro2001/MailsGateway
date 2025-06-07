@@ -1,12 +1,11 @@
 ﻿using System.Text;
 using System.Security.Cryptography;
-using System.Text;
-namespace MailGateway.Helpers
+
+namespace Shared.Helper
 {
     public static class CryptoHelper
     {
         private static readonly string key = "12345678901234567890123456789012"; // 32 caracteres ASCII puros
-// Debe tener 16, 24 o 32 bytes
 
         public static string Encrypt(string plainText)
         {

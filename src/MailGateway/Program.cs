@@ -1,6 +1,7 @@
 using Application.Interfaces;
 using Infrastructure.Services.Mail;
-
+using Microsoft.EntityFrameworkCore;
+using Infrastructure.Data;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,12 @@ builder.Services.AddScoped<IEmailSenderService, EmailSendServices>(); // Registe
 builder.Services.AddScoped<IEmailReaderService, EmailReaderService>(); // Register the email service
 builder.Services.AddScoped<IEmailReaderMessageService, EmailReaderMessageService>(); // Register the email service
 builder.Services.AddScoped<INotificationStore, NotificationStoreServices>(); // Register the email service
+
+// Configure Entity Framework Core with SQL Server
+
+
+builder.Services.AddDbContext<AppDBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CadenaSQL")));
 
 var app = builder.Build();
 
@@ -33,6 +40,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Acceso}/{action=Login}/{id?}");
 
 app.Run();

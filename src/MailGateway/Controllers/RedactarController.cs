@@ -21,10 +21,10 @@ namespace MailGateway.Controllers
         [HttpPost]
         public IActionResult Redactar(EmailDTO emailDAO)
         {
-          
-            if(string.IsNullOrWhiteSpace(emailDAO.Para)) { 
-                ViewBag.Error = "El campo Para es obligatorio"; 
-                return View(); 
+            if (string.IsNullOrWhiteSpace(emailDAO.Para))
+            {
+                ViewBag.Error = "El campo Para es obligatorio";
+                return View();
             }
 
             if (string.IsNullOrWhiteSpace(emailDAO.Asunto))
@@ -39,25 +39,28 @@ namespace MailGateway.Controllers
                 return View();
             }
 
-            EmailDTO email = new EmailDTO() { 
+            var email = new EmailDTO
+            {
                 Para = emailDAO.Para,
                 Asunto = emailDAO.Asunto,
-                Contenido = emailDAO.Contenido
+                Contenido = emailDAO.Contenido,
+                Imagenes = emailDAO.Imagenes ,// pasa las imágenes también,
+                ArchivosAdjuntos = emailDAO.ArchivosAdjuntos
             };
 
             var resultado = _emailSenderService.SendEmail(email);
 
             if (resultado.Success)
             {
-                // Guardar correo enviado
-                ViewBag.Success = "Correo enviado correctamente. " ;
+                ViewBag.Success = "Correo enviado correctamente.";
                 return View(new EmailDTO());
             }
-            else {
+            else
+            {
                 ViewBag.Error = $"Error al enviar correo: {resultado.ErrorMessage}";
+                return View();
             }
-            return View();
-
         }
+
     }
 }
