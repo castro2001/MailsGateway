@@ -20,9 +20,8 @@ namespace Domain.Entidades.Mail
            /* if (usuario == null || string.IsNullOrEmpty(usuario.PasswordSecret))
                 throw new Exception("Usuario no encontrado o sin clave de aplicación configurada");*/
 
-            //var clave = _cryptoHelper.Decrypt(usuario.PasswordSecret);
-            var PasswordSecret = "ysguwcozegbojsit";
-            return (usuario.CorreoElectronico, PasswordSecret);
+            var clave = _cryptoHelper.Decrypt(usuario.PasswordSecret);
+            return (usuario.CorreoElectronico, clave);
         }
     }
 }

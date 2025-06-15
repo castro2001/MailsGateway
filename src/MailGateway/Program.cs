@@ -46,7 +46,7 @@ builder.Services.AddScoped<UsuarioRepositoy>();
 builder.Services.Configure<CryptoSettings>(builder.Configuration.GetSection("Crypto"));
 builder.Services.AddSingleton<CryptoHelper>();
 
-builder.Services.AddHostedService<EmailBackgroundService>(); // Register the background service for email processing
+//builder.Services.AddHostedService<EmailBackgroundService>(); // Register the background service for email processing
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole(); // Agrega log en consola
 builder.Logging.AddDebug();   // Para ver en Output (Visual Studio)

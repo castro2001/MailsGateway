@@ -24,12 +24,12 @@ namespace MailGateway.Controllers
 
         }
 
-        public IActionResult Index()
+        public async Task< IActionResult> Index()
         {
-            var correos = _emailReaderService.LeerMensajesRecibidos();
-            // Encriptar UID aquí
+            var correos = await _emailReaderService.LeerMensajesRecibidos();
+            //ncriptar UID aquí
             foreach (var correo in correos)
-            {
+           {
                 correo.EncryptedUid = _cryptoHelper.Encrypt(correo.Uid.ToString());
             }
 
