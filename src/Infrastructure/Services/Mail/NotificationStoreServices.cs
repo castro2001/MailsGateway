@@ -50,12 +50,12 @@ namespace Infrastructure.Services.Mail
                 // Aquí creas el registro de mensaje respondido (SentMessage)
                 Agregar(new SentMessage
                 {
-                    Id = Guid.NewGuid().ToString(), // Genera un nuevo ID único
+                    Uid = Guid.NewGuid().ToString(), // Genera un nuevo ID único
                     MessageId = inReplyTo,
                     Para = remitente, // El remitente de la respuesta
                     Asunto = mensajeOriginal.Asunto, // Asunto del mensaje original
                     FechaEnvio = DateTime.Now, // Fecha actual como fecha de respuesta
-                    UsuarioId = 0 // Aquí puedes asignar el ID del usuario que envió originalmente si es necesario
+                    //UsuarioId = 0 // Aquí puedes asignar el ID del usuario que envió originalmente si es necesario
                 });
 
                 return true;

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Domain.Entidades.Mail.Email>
+﻿@model IEnumerable<Domain.Entidades.Mail.InboxMessage>
 @using Shared.Helper;
 @{
     ViewData["HeaderTitle"] = " Mensaje Enviados ";
@@ -8,6 +8,7 @@
     ViewData["LinkController"] = "Home";
     ViewData["LinkAction"] = "Index";
     ViewData["LinkText"] = "Volver a la bandeja de entrada";
+
 }
 
 <div class="card-body p-0">
@@ -17,7 +18,7 @@
             <tbody>
                 @foreach (var email in Model)
                 {
-                    <tr onclick="window.location.href='@Url.Action("Detalle", "Enviados", new { uid = CryptoHelper.Encrypt(email.Uid) })'" style="cursor:pointer;">
+                    <tr onclick="window.location.href='@Url.Action("Detalle", "Enviados", new { uid = email.EncryptedUid } )'" style="cursor:pointer;">
 
                         <td>
                             <div class="icheck-primary">

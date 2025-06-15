@@ -1,10 +1,10 @@
-﻿using Application.DTO;
-using System.Security.Claims;
+﻿using Domain.Entidades.Seguridad;
+
 
 namespace Application.Interfaces.Seguridad
 {
     public interface IAuthServices
     {
-        public void UsersList(UsuarioDTO usuario);
+        public  Task AutenticarUsuarioAsync(Usuario usuario);
     }
 }

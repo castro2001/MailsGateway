@@ -1,8 +1,17 @@
 ﻿@model Application.DTO.UsuarioDTO;
 @{
-    Layout = "~/Views/Shared/Acceso/_Layout.cshtml";
+    
+        Layout = "~/Views/Shared/Acceso/_Layout.cshtml";
 }
-<form action="../../index.html" method="post">
+@if (ViewData["message"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@ViewData["message"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<form asp-controller="Acceso" asp-action="Registro" method="post" enctype="multipart/form-data">
     <div class="input-group mb-3">
         <input type="text" class="form-control" asp-for="Nombre" placeholder="Nombre">
         <div class="input-group-append">
@@ -46,14 +55,24 @@
         </div>
     </div>
     <div class="row">
- @*        <div class="col-8">
-            <div class="icheck-primary">
+
+       <div class="col-8">
+            <div class="form-group">
+                <div class="btn btn-default btn-file">
+                    <i class="fas fa-paperclip"></i> Attachment
+                    <input type="file" asp-for="Imagen" accept=".jpg,.jpeg,.png" id="Perfil" multiple class="form-control">
+                    <div id="listaAdjuntos" class="mt-2"></div>
+
+                </div>
+                <p class="help-block">Max. 32MB</p>
+            </div>
+            @*  <div class="icheck-primary">
                 <input type="checkbox" id="agreeTerms" name="terms" value="agree">
                 <label for="agreeTerms">
                     I agree to the <a href="#">terms</a>
                 </label>
-            </div>
-        </div> *@
+            </div>*@
+        </div> 
         <!-- /.col -->
         <div class="col-4">
             <button type="submit" class="btn btn-primary btn-block">Register</button>
@@ -65,4 +84,18 @@
 <p class="mb-1">
     <a asp-controller="Acceso" asp-action="Login" class="text-center">  Ya tengo una membresía</a>
 </p>
+@section Scripts{
+    <script>
+        // Mostrar nombres de archivos adjuntos seleccionados
+            $('#Perfil').on('change', function () {
+                const lista = $('#listaAdjuntos');
+                lista.empty();
+
+                for (let i = 0; i < this.files.length; i++) {
+                    const file = this.files[i];
+                    lista.append(`<div><i class="fas fa-paperclip"></i> ${file.name}</div>`);
+                }
+            });
+    </script>
+}
       

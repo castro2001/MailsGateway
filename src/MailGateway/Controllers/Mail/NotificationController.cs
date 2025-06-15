@@ -1,10 +1,12 @@
 ﻿using Application.DTO;
 using Application.Interfaces;
 using Domain.Entidades.Mail;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MailGateway.Controllers.Mail
 {
+    [Authorize]
     public class NotificationController : Controller
     {
         private readonly INotificationStore _notificationStore;

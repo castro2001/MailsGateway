@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace Application.DTO
 {
     public class UsuarioDTO
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Nombre { get; set; } = string.Empty!;
         public string Apellido { get; set; } = string.Empty!;
         public string CorreoElectronico { get; set; } = string.Empty!;
 
-        public string Clave = string.Empty!;
-        public string RepetirClave = string.Empty!;
+        public string Clave { get; set; } = string.Empty!;
+        public string RepetirClave { get; set; } = string.Empty!;
+        public IFormFile? Imagen { get; set; } 
         public string Perfil { get; set; } = string.Empty!;
+        public string LlaveSecreta { get; set; } = string.Empty!;
+
+       
     }
 }

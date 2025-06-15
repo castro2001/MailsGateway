@@ -2,7 +2,16 @@
 @{
     Layout = "~/Views/Shared/Acceso/_Layout.cshtml";
 }
-<form action="../../index3.html" method="post">
+
+@if (ViewData["message"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@ViewData["message"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<form asp-controller="Acceso" asp-action="Login" method="post"> 
     <div class="input-group mb-3">
         <input type="email" class="form-control" asp-for="CorreoElectronico" placeholder="example@gmail.com">
         <div class="input-group-append">

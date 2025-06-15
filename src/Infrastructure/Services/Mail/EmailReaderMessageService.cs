@@ -17,7 +17,7 @@ namespace Infrastructure.Services.Mail
             _emailConnectionProvider = emailConnectionProvider;
         }
 
-        public Email DetalleMensajesEnviados(uint id)
+        public InboxMessage DetalleMensajesEnviados(uint id)
         {
             using var client = _emailConnectionProvider.GetImapClient();
             var messageSentFolder = client.GetFolder(SpecialFolder.Sent);
@@ -28,7 +28,7 @@ namespace Infrastructure.Services.Mail
             var uid = new UniqueId(id);
             var mensaje = messageSentFolder.GetMessage(uid);
 
-            var detalle = new Email
+            var detalle = new InboxMessage
             {
                 Para = mensaje.To.ToString(),
                 De = mensaje.From.ToString(),
@@ -42,9 +42,9 @@ namespace Infrastructure.Services.Mail
             return detalle;
         }
 
-        public List<Email> LeerMensajesEnviados()
+        public List<InboxMessage> LeerMensajesEnviados()
         {
-            var mensajes = new List<Email>();
+            var mensajes = new List<InboxMessage>();
             using var client = _emailConnectionProvider.GetImapClient();
             var messageSentFolder = client.GetFolder(SpecialFolder.Sent);
             messageSentFolder.Open(FolderAccess.ReadOnly);
@@ -58,10 +58,10 @@ namespace Infrastructure.Services.Mail
             foreach (var uid in uids)
             {
                 var mensaje = messageSentFolder.GetMessage(uid);
-                uint id = uid.Id;
-                mensajes.Add(new Email
+                //uint id = uid.Id;
+                mensajes.Add(new InboxMessage
                 {
-                    Uid = id.ToString(),
+                   // Uid = id,
                     De = mensaje.From.ToString(),
                     Para = mensaje.To.ToString(),
                     Asunto = mensaje.Subject,

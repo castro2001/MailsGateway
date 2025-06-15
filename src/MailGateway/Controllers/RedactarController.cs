@@ -1,10 +1,11 @@
-﻿using Application.Interfaces;
-using Application.DTOS;
-using MailGateway.Models;
+﻿using Application.DTOS;
+using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MailGateway.Controllers
 {
+    [Authorize]
     public class RedactarController : Controller
     {
         private readonly IEmailSenderService _emailSenderService;

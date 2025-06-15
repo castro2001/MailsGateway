@@ -19,9 +19,9 @@ namespace Infrastructure.Services.Mail
             _notificationStore = notificationStore;
         }
      
-        public List<Email> LeerMensajesRecibidos()
+        public List<InboxMessage> LeerMensajesRecibidos()
         {
-            var mensajes = new List<Email>();
+            var mensajes = new List<InboxMessage>();
             using var client = _emailConnectionProvider.GetImapClient();
             // Seleccionar la bandeja de entrada
             var inbox = client.Inbox;
@@ -48,7 +48,7 @@ namespace Infrastructure.Services.Mail
                 // Obtener todos los encabezados
                 var todosLosEncabezados = mensaje.Headers;
                 _notificationStore.Agregar(new SentMessage {
-                    Id =  id.ToString(),
+                    //Id =  id.ToString(),
                     MessageId = mensaje.MessageId,
                     Para = mensaje.To.ToString(),
                     Asunto = mensaje.Subject,
@@ -58,9 +58,9 @@ namespace Infrastructure.Services.Mail
                 _notificationStore.VerificarYNotificarRespuesta(mensaje.InReplyTo, mensaje.From.ToString());
 
 
-                mensajes.Add(new Email
+                mensajes.Add(new InboxMessage
                 {
-                    Uid = id.ToString(),
+                    //Uid = id.ToString(),
                     De = mensaje.From.ToString(),
                     Para = mensaje.To.ToString(),
                     Asunto = mensaje.Subject,
@@ -80,7 +80,7 @@ namespace Infrastructure.Services.Mail
             return mensajes;
         }
 
-        public Email DetalleCorreo(uint id)
+        public InboxMessage DetalleCorreo(uint id)
         {
             using var client = _emailConnectionProvider.GetImapClient();
             var inbox = client.Inbox;
@@ -100,7 +100,7 @@ namespace Infrastructure.Services.Mail
           
        
 
-            var detalle = new Email
+            var detalle = new InboxMessage
             {
                 Para = mensaje.To.ToString(),
                 De = mensaje.From.ToString(),

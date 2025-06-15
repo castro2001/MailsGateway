@@ -1,10 +1,13 @@
 ﻿
 
+using Domain.Entidades.Seguridad;
+
 namespace Domain.Entidades.Mail
 {
-    public class Email
+    public class InboxMessage
     {
-        public string Uid { get; set; } // Identificador único del correo, puede ser un ID de base de datos o un UID de MailKit
+        public int Id { get; set; } // ID del mensaje en la base de datos
+        public string Uid { get; set; } = string.Empty!;
         public string De { get; set; } = string.Empty!;
         public string Para { get; set; } = string.Empty!; // Correo del destinatario, por defecto vacío
         public string Asunto { get; set; } = string.Empty!;
@@ -19,5 +22,10 @@ namespace Domain.Entidades.Mail
         public string FirmadoPor { get; set; } = string.Empty!;
         // Nivel de seguridad (TLS, etc.)
         public string Seguridad { get; set; } = string.Empty!;
+        public string EncryptedUid { get; set; } = string.Empty!; // UID cifrado para mayor seguridad
+
+        //Relación con el usuario Logueado
+        public int? DestinatarioID { get; set; } // ID del usuario que recibió el correo
+        public Usuario? Destinatario { get; set; } // Relación con la entidad Usuario
     }
 }
