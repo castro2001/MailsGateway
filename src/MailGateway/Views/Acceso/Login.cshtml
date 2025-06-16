@@ -1,6 +1,7 @@
-﻿@model Application.DTO.UsuarioDTO;
+﻿@model Application.DTO.Usuarios.LoginDTO;
 @{
     Layout = "~/Views/Shared/Acceso/_Layout.cshtml";
+ 
 }
 
 @if (ViewData["message"] != null)
@@ -10,8 +11,16 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
+<div class="col-md-12 col-lg-8">
+    <div class="card card-default p-3 p-md-5">
+        <!-- menos padding en móvil -->
+        <div class="card-header">
+            <h3 class="card-title fs-2">Acceso al sistema</h3>
 
-<form asp-controller="Acceso" asp-action="Login" method="post"> 
+
+        </div>
+        <div class="card-body ">
+                <form asp-controller="Acceso" asp-action="Login" method="post"> 
     <div class="input-group mb-3">
         <input type="email" class="form-control" asp-for="CorreoElectronico" placeholder="example@gmail.com">
         <div class="input-group-append">
@@ -45,10 +54,13 @@
     </div>
 </form>
 
+        </div>
+        <div class="card-footer">
+            <a asp-controller="Acceso" asp-action="Registro" class="text-black fs-5 fw-lighter">
+                "Registrar una nueva membresía
+            </a>
+        </div>
+    </div>
+</div>
 
-@* <p class="mb-1">
-    <a href="forgot-password.html">I forgot my password</a>
-</p> *@
-<p class="mb-1">
-    <a asp-controller="Acceso" asp-action="Registro" class="text-center">Registrar una nueva membresía</a>
-</p>
+

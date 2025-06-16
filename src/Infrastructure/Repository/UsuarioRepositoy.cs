@@ -1,4 +1,5 @@
 ﻿using Application.DTO;
+using Application.DTO.Usuarios;
 using Domain.Entidades.Seguridad;
 using Infrastructure.Persistence.Context;
 //using Infrastructure.Persistence.Migrations;
@@ -17,7 +18,7 @@ namespace Infrastructure.Repository
             _context = appDBContext;
             _cryptoHelper= cryptoHelper;
         }
-        public async Task<Usuario?> ValidarUsuarioAsync(UsuarioDTO usuario)
+        public async Task<Usuario?> ValidarUsuarioAsync(LoginDTO usuario)
         {
             try
             {
@@ -37,7 +38,7 @@ namespace Infrastructure.Repository
                 return null;
             }
         }
-        public async Task<(bool Exito, string? Message)> crearUsuario(UsuarioDTO usuario)
+        public async Task<(bool Exito, string? Message)> crearUsuario(RegistroDTO usuario)
         {
             try
             {
@@ -47,7 +48,8 @@ namespace Infrastructure.Repository
                     Apellido = usuario.Apellido,
                     CorreoElectronico = usuario.CorreoElectronico,
                     Clave = SecurityHelper.HashPassword(usuario.Clave),
-                    Perfil = usuario.Perfil
+                    Perfil = usuario.Perfil,
+                    PasswordSecret = _cryptoHelper.Encrypt(usuario.LlaveSecreta),
                 };
 
                 await _context.usuarios.AddAsync(nuevoUsuario);

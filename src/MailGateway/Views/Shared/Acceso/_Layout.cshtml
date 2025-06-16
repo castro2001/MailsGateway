@@ -3,46 +3,47 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Log in (v2)</title>
+    <title>AdminLTE 3 | Log in (v2) @ViewBag.Title ?? "Acceso al Sistema"</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
  
     <!-- Theme style -->
     <link rel="stylesheet" href="~/lib/icheck-bootstrap/icheck-bootstrap.min.css">
-
+    <link rel="stylesheet" href="~/lib/bs-stepper/css/bs-stepper.min.css" />
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="~/css/adminlte.min.css">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="~/lib/dropzone/min/dropzone.min.css" />
+
 </head>
-<body class="hold-transition login-page">
-    <div class="login-box">
-        <!-- /.login-logo -->
-        <div class="card card-outline card-primary">
-            <div class="card-header text-center">
-                <a href="../../index2.html" class="h1"><b>Admin</b>LTE</a>
-            </div>
-            <div class="card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+<body class="hold-transition ">
+    <div class="container mt-5">
+    
+        <div class="row justify-content-center">
+            <!-- g-4 para espacio entre cards -->
 
-                @RenderBody()
+         
+                        @RenderBody()
+      
 
-              
-                <!-- /.social-auth-links -->
+       
 
-            </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </div>
-    <!-- /.login-box -->
+
+
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/adminlte.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bs-stepper/js/bs-stepper.min.js"></script>
+
+    <script src="~/lib/dropzone/min/dropzone.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

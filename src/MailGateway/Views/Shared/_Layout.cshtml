@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="~/css/adminlte.min.css">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.min.css">
+  
+
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
@@ -61,12 +63,15 @@
 
     <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/adminlte.min.js" asp-append-version="true"></script>
     <script src="~/js/demo.js"> </script>
+
+
     <script>
              function ObtenerMensajesEnviados() {
             const avatarUrl = '@Url.Content("~/Imagen/Perfil/usuario.png")';

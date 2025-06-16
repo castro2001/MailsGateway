@@ -1,4 +1,5 @@
 ﻿using Application.DTO;
+using Application.DTO.Usuarios;
 using Application.Interfaces.Seguridad;
 using Domain.Entidades.Seguridad;
 using Infrastructure.Repository;
@@ -38,7 +39,7 @@ namespace MailGateway.Controllers.Seguridad
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login( UsuarioDTO usuarioDTO)
+        public async Task<IActionResult> Login( LoginDTO usuarioDTO)
         {
             var usuarioValidate = await _usuarioRepository.ValidarUsuarioAsync(usuarioDTO);
             if (usuarioValidate != null)
@@ -61,25 +62,17 @@ namespace MailGateway.Controllers.Seguridad
 
 
         [HttpPost]
-        public async Task<IActionResult> Registro(UsuarioDTO usuarioDTO)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Registro(RegistroDTO usuarioDTO)
         {
-            if (!SecurityHelper.EsClaveSegura(usuarioDTO.Clave))
+            if (!ModelState.IsValid)
             {
-                ViewBag.Message = "La contraseña debe tener al menos 8 caracteres, incluyendo mayúsculas, minúsculas, números y símbolos.";
-                return View();
+                return View(usuarioDTO);
+
             }
 
-            if (usuarioDTO.Clave != usuarioDTO.RepetirClave)
-            {
-                ViewBag.Message = "Las contraseñas no coinciden.";
-                return View();
-            }
 
-            if (!SecurityHelper.EsCorreoGmailValido(usuarioDTO.CorreoElectronico))
-            {
-                ViewBag.Message = "El correo electrónico debe ser una cuenta de Gmail válida.";
-                return View();
-            }
+
 
             if (usuarioDTO.Imagen != null && usuarioDTO.Imagen.Length > 0)
             {
@@ -88,27 +81,29 @@ namespace MailGateway.Controllers.Seguridad
 
                 if (!extensionesPermitidas.Contains(extension))
                 {
-                    ViewBag.Message = "Solo se permiten imágenes JPG, JPEG o PNG.";
-                    return View();
+                    ModelState.AddModelError(nameof(usuarioDTO.Imagen), "Solo se permiten imágenes JPG, JPEG o PNG.");
+                  
                 }
 
-                var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-                var nombreUnico = $"Perfil_{timestamp}{extension}";
+                 var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+                 var nombreUnico = $"Perfil_{timestamp}{extension}";
 
-                var rutaDestino = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/imagen/Perfil/", nombreUnico);
-                Directory.CreateDirectory(Path.GetDirectoryName(rutaDestino)!);
+                 var rutaDestino = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/imagen/Perfil/", nombreUnico);
+                 Directory.CreateDirectory(Path.GetDirectoryName(rutaDestino)!);
 
-                using (var stream = new FileStream(rutaDestino, FileMode.Create))
-                {
-                    usuarioDTO.Imagen.CopyTo(stream);
-                }
-
+                 using (var stream = new FileStream(rutaDestino, FileMode.Create))
+                 {
+                     usuarioDTO.Imagen.CopyTo(stream);
+                 }
+                
                 usuarioDTO.Perfil = nombreUnico;
             }
 
+
+            
             var resultado = await _usuarioRepository.crearUsuario(usuarioDTO);
 
-            if (resultado.Exito)
+            if (!resultado.Exito)
             {
                 ViewBag.Message = resultado.Message;
             }
@@ -117,7 +112,8 @@ namespace MailGateway.Controllers.Seguridad
                 ViewBag.Message = $"Error al guardar el registro: {resultado.Message}";
             }
 
-            return View();
+
+            return View(new RegistroDTO());
         }
 
 

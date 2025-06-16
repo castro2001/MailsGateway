@@ -1,101 +1,319 @@
-﻿@model Application.DTO.UsuarioDTO;
+﻿@model Application.DTO.Usuarios.RegistroDTO;
 @{
-    
-        Layout = "~/Views/Shared/Acceso/_Layout.cshtml";
+    Layout = "~/Views/Shared/Acceso/_Layout.cshtml";
+
 }
 @if (ViewData["message"] != null)
 {
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>@ViewData["message"]</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h5><i class="icon fas fa-check"></i> Registro Exitoso!</h5>
+       @ViewData["message"]
     </div>
 }
 
-<form asp-controller="Acceso" asp-action="Registro" method="post" enctype="multipart/form-data">
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" asp-for="Nombre" placeholder="Nombre">
-        <div class="input-group-append">
-            <div class="input-group-text">
-                <span class="fas fa-user"></span>
-            </div>
-        </div>
-    </div>
+<div class="col-8 col-md-10 col-l-8">
+    <div class="card card-default p-3 p-md-2">
+        <!-- menos padding en móvil -->
+        <div class="card-header">
+            <h3 class="card-title">Registro</h3>
 
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" asp-for="Apellido" placeholder="Apellido">
-        <div class="input-group-append">
-            <div class="input-group-text">
-                <span class="fas fa-user"></span>
-            </div>
-        </div>
-    </div>
 
-    <div class="input-group mb-3">
-        <input type="email" class="form-control" asp-for="CorreoElectronico"  placeholder="Email">
-        <div class="input-group-append">
-            <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
-            </div>
         </div>
-    </div>
-    <div class="input-group mb-3">
-        <input type="password" class="form-control" asp-for="Clave" placeholder="Password">
-        <div class="input-group-append">
-            <div class="input-group-text">
-                <span class="fas fa-lock"></span>
-            </div>
-        </div>
-    </div>
-    <div class="input-group mb-3">
-        <input type="password" class="form-control" asp-for="RepetirClave" placeholder="Retype password">
-        <div class="input-group-append">
-            <div class="input-group-text">
-                <span class="fas fa-lock"></span>
-            </div>
-        </div>
-    </div>
-    <div class="row">
+        <div class="card-body ">
 
-       <div class="col-8">
-            <div class="form-group">
-                <div class="btn btn-default btn-file">
-                    <i class="fas fa-paperclip"></i> Attachment
-                    <input type="file" asp-for="Imagen" accept=".jpg,.jpeg,.png" id="Perfil" multiple class="form-control">
-                    <div id="listaAdjuntos" class="mt-2"></div>
+            <form class="bs-stepper" asp-action="Registro" asp-controller="Acceso" enctype="multipart/form-data" id="stepper">
+                
+                @Html.AntiForgeryToken()
+                <div class="bs-stepper-header d-flex flex-wrap justify-content-center gap-2" role="tablist">
+                    <!-- your steps here -->
+                    <div class="step flex-fill text-center min-w-100"  data-target="#information-person">
+                                <button type="button" class="step-trigger" role="tab" aria-controls="information-person" id="information-person-trigger">
+                            <span class="bs-stepper-circle">1</span>
+                            <span class="bs-stepper-label">Información Personal</span>
+                        </button>
+                    </div>
+                    <div class="line"></div>
+                    <div class="step flex-fill text-center min-w-100"  data-target="#security">
+                                <button type="button" class="step-trigger" role="tab" aria-controls="security" id="security-trigger">
+                            <span class="bs-stepper-circle">2</span>
+                            <span class="bs-stepper-label">Seguridad</span>
+                        </button>
+                    </div>
+                    <div class="line"></div>
+                    <div class="step flex-fill text-center min-w-100" data-target="#imagen-perfil">
+                                <button type="button" class="step-trigger" role="tab" aria-controls="imagen-perfil" id="imagen-perfil-trigger">
+                            <span class="bs-stepper-circle">2</span>
+                            <span class="bs-stepper-label">Imagen de Perfil</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="bs-stepper-content">
+                <!-- your steps content here -->
+                <div id="information-person" class="content" role="tabpanel" aria-labelledby="information-person-trigger">
+            
+                    <div class="form-group">
+                        <label asp-for="Nombre">Nombre</label>
+                        <input type="text" class="form-control" asp-for="Nombre" placeholder="Email">
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Apellido">Apellido</label>
+                            <input type="text" class="form-control" asp-for="Apellido" placeholder="Email">
+                            <span asp-validation-for="Apellido" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="CorreoElectronico">Correo Electronico</label>
+                        <input type="email" class="form-control" asp-for="CorreoElectronico" placeholder="Email">
+                            <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
+                    </div>
+
+
+                        <button class="btn btn-primary btn-next" type="button" disabled>Siguiente</button>
+                </div>
+
+                <div id="security" class="content" role="tabpanel" aria-labelledby="security-trigger">
+
+                       
+                    <div class="form-group">
+                        <label asp-for="Clave">Contraseña</label>
+                            <input type="password" class="form-control" asp-for="Clave" placeholder="*******">
+                            <span asp-validation-for="Clave" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="RepetirClave">Repetir Contraseña</label>
+                        <input type="password" class="form-control" asp-for="RepetirClave" placeholder="*******">
+                            <span asp-validation-for="RepetirClave" class="text-danger"></span>
+                    </div>
+
+        
+                    <div class="form-group">
+                        <label asp-for="LlaveSecreta">Contraseña de Aplicaciones</label>
+                        <input type="text" class="form-control" asp-for="LlaveSecreta" placeholder="Email">
+                            <span asp-validation-for="LlaveSecreta" class="text-danger"></span>
+                    </div>
+
+                        <button class="btn btn-primary" type="button"  onclick="stepper.previous()">Anterior</button>
+                        <button class="btn btn-primary btn-next" type="button" disabled>Siguiente</button>
+                </div>
+
+                <section id="imagen-perfil" class="content" role="tabpanel" aria-labelledby="imagen-perfil-trigger">
+                    <div id="actions" class="row">
+                        <div class="col-lg-6">
+                            <div class="btn-group w-100">
+                                <span class="btn btn-success col fileinput-button">
+                                    <i class="fas fa-plus"></i>
+                                      
+                                    <span>Subir Imagen</span>
+                                </span>
+
+                            </div>
+                        </div>
+                       
+                    </div>
+                        <!-- Visible file input para Dropzone pero no se usará directamente -->
+                        <input type="file" id="Imagen"asp-for="Imagen" hidden />
+                    <div class="table table-striped files" id="previews">
+                        <div id="template" class="row mt-2">
+                            <div class="col-auto">
+                                <span class="preview"><img src="data:," alt="" data-dz-thumbnail /></span>
+                            </div>
+                            <div class="col d-flex align-items-center">
+                                <p class="mb-0">
+                                    <span class="lead" data-dz-name></span>
+                                    (<span data-dz-size></span>)
+                                </p>
+                                <strong class="error text-danger" data-dz-errormessage></strong>
+                            </div>
+                         
+                            <div class="col-auto d-flex align-items-center">
+                                <div class="btn-group">
+                                    
+                                        <button type="button" data-dz-remove class="btn btn-warning danger">
+                                        <i class="fas fa-times-circle"></i>
+                                        <span>Eliminar</span>
+                                    </button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                
+                             
+        
+                    <button class="btn btn-primary" onclick="stepper.previous()">Anterior</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </section>
 
                 </div>
-                <p class="help-block">Max. 32MB</p>
-            </div>
-            @*  <div class="icheck-primary">
-                <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-                <label for="agreeTerms">
-                    I agree to the <a href="#">terms</a>
-                </label>
-            </div>*@
-        </div> 
-        <!-- /.col -->
-        <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+
+
         </div>
-        <!-- /.col -->
+        <div class="card-footer">
+            <a asp-controller="Acceso" asp-action="Login" class="text-black fs-5 fw-lighter">
+                Ya tengo una cuenta
+            </a>
+        </div>
     </div>
-</form>
+</div>
 
-<p class="mb-1">
-    <a asp-controller="Acceso" asp-action="Login" class="text-center">  Ya tengo una membresía</a>
-</p>
-@section Scripts{
-    <script>
-        // Mostrar nombres de archivos adjuntos seleccionados
-            $('#Perfil').on('change', function () {
-                const lista = $('#listaAdjuntos');
-                lista.empty();
 
-                for (let i = 0; i < this.files.length; i++) {
-                    const file = this.files[i];
-                    lista.append(`<div><i class="fas fa-paperclip"></i> ${file.name}</div>`);
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+  
+
+        <script>
+            $(document).ready(function () {
+                // Inicializar la validación
+                $('#stepper').validate({
+                    ignore: [],
+                    errorClass: "is-invalid",
+                    validClass: "is-valid",
+                    errorElement: "span",
+                    errorPlacement: function (error, element) {
+                        error.addClass("text-danger");
+                        error.insertAfter(element);
+                    }
+                });
+
+                const stepperEl = document.querySelector('#stepper');
+                const stepper = new window.Stepper(stepperEl);
+
+                function getCurrentNextButton() {
+                    const idx = stepper._currentIndex;
+                    const current = stepperEl.querySelectorAll('.bs-stepper-content .content')[idx];
+                    return current.querySelector('.btn-next');
                 }
+
+                function updateNextBtn() {
+                    const idx = stepper._currentIndex;
+                    const current = stepperEl.querySelectorAll('.bs-stepper-content .content')[idx];
+                    const $inputs = $(current).find('input, select, textarea').filter(':visible');
+                    const valid = $inputs.length ? $inputs.valid() : true;
+                    const currentBtn = getCurrentNextButton();
+                    if (currentBtn) currentBtn.disabled = !valid;
+                }
+
+                $('#stepper').on('input change', 'input, select, textarea', function () {
+                    const $input = $(this);
+                    if ($input.hasClass('input-validation-error')) {
+                        $input.removeClass('is-valid').addClass('is-invalid');
+                    } else if ($input.val() !== '') {
+                        $input.removeClass('is-invalid').addClass('is-valid');
+                    } else {
+                        $input.removeClass('is-valid is-invalid');
+                    }
+                    updateNextBtn();
+                });
+
+                stepperEl.addEventListener('show.bs-stepper', (e) => {
+                    const idx = stepper._currentIndex;
+                    const current = stepperEl.querySelectorAll('.bs-stepper-content .content')[idx];
+                    const $inputs = $(current).find('input, select, textarea').filter(':visible');
+                    if ($inputs.length && !$inputs.valid()) {
+                        e.preventDefault();
+                    }
+                });
+
+                stepperEl.addEventListener('click', (e) => {
+                    const currentBtn = getCurrentNextButton();
+                    if (e.target === currentBtn && !currentBtn.disabled) {
+                        stepper.next();
+                        updateNextBtn();
+                    }
+                });
+
+                $('#stepper').on('submit', function (e) {
+                    if (!$(this).valid()) {
+                        e.preventDefault();
+                        alert('Por favor, completa todos los campos requeridos.');
+                    }
+                });
+
+                // Verifica el botón en la carga inicial
+                updateNextBtn();
             });
+
+
+                    Dropzone.autoDiscover = false;
+
+        const previewNode = document.querySelector("#template");
+        previewNode.id = "";
+        const previewTemplate = previewNode.parentNode.innerHTML;
+        previewNode.parentNode.removeChild(previewNode);
+
+        const myDropzone = new Dropzone(document.body, {
+            // NO configures la URL para evitar subida AJAX
+                 url: "/Acceso/Registro", // Set the url
+          thumbnailWidth: 80,
+          thumbnailHeight: 80,
+          parallelUploads: 20,
+            autoProcessQueue: false, // no subir por ajax
+            maxFiles: 1,
+            acceptedFiles: ".jpg,.jpeg,.png",
+            previewTemplate: previewTemplate,
+            previewsContainer: "#previews",
+            clickable: ".fileinput-button"
+        });
+
+        myDropzone.on("addedfile", function (file) {
+            if (myDropzone.files.length > 1) {
+                myDropzone.removeFile(myDropzone.files[0]);
+            }
+
+            // Sincronizar archivo con input real
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            document.getElementById("Imagen").files = dataTransfer.files;
+        });
+
+        myDropzone.on("removedfile", function () {
+            document.getElementById("Imagen").value = "";
+        });
+
+        // Animación simulada de progreso
+        function simulateProgress() {
+            const progressBar = document.querySelector("#total-progress .progress-bar");
+            let width = 0;
+            document.querySelector("#total-progress").style.opacity = "1";
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    document.querySelector("#total-progress").style.opacity = "0";
+                    alert("Imagen lista para subir con el formulario.");
+                } else {
+                    width += 5;
+                    progressBar.style.width = width + "%";
+                }
+            }, 100);
+        }
+
+        document.querySelector("#actions .start").onclick = function () {
+            if (myDropzone.files.length === 0) {
+                alert("Por favor, selecciona una imagen primero.");
+                return;
+            }
+            // Inicia animación de progreso simulada
+            simulateProgress();
+
+            // Luego envía el formulario normal (asumiendo que el formulario tiene id="formRegistro")
+            setTimeout(() => {
+                document.getElementById("stepper").submit();
+            }, 2200); // espera que termine la animación antes de enviar
+        };
+
+        document.querySelector("#actions .cancel").onclick = function () {
+            myDropzone.removeAllFiles(true);
+        };
+
     </script>
+
 }
-      
+
