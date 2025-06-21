@@ -46,7 +46,7 @@ namespace MailGateway.Controllers.Seguridad
             {
                 var usuario = new Usuario
                 {
-    
+                    Id = usuarioValidate.Id,
                     Nombre = usuarioValidate.Nombre,
                     Apellido = usuarioValidate.Apellido,
                     CorreoElectronico = usuarioValidate.CorreoElectronico,

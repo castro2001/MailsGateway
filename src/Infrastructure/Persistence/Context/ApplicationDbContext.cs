@@ -10,9 +10,7 @@ namespace Infrastructure.Persistence.Context
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
      
         public DbSet<Usuario> usuarios { get; set; }
-        public DbSet<InboxMessage> InboxMessage { get; set; }
-        public DbSet<SentMessage> SentMessage { get; set; }
-        public DbSet<Notification> Notification { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -39,7 +39,7 @@ builder.Services.AddScoped<IEmailReaderService, EmailReaderService>(); // Regist
 builder.Services.AddScoped<IEmailReaderMessageService, EmailReaderMessageService>(); // Register the email service
 builder.Services.AddScoped<INotificationStore, NotificationStoreServices>(); // Register the email service
 builder.Services.AddScoped<ICredentialProvider, CredentialProvider>();
-
+builder.Services.AddScoped<UsuarioAutenticado>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IAuthServices, AuthServices>();
 builder.Services.AddScoped<UsuarioRepositoy>();

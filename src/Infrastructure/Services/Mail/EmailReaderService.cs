@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Domain.Entidades.Mail;
 using Infrastructure.Persistence.Context;
+using Infrastructure.Repository;
 using MailKit;
 using MailKit.Search;
 using Microsoft.EntityFrameworkCore;
@@ -14,21 +15,27 @@ namespace Infrastructure.Services.Mail
         private readonly IConfiguration _configuration;
         private readonly IEmailConnectionProvider _emailConnectionProvider;
         private readonly INotificationStore _notificationStore;
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
+        private readonly UsuarioAutenticado _usuarioAutenticado;
+ 
         public EmailReaderService(
             IConfiguration configuration,
             INotificationStore notificationStore,
             IEmailConnectionProvider emailConnectionProvider,
-            ApplicationDbContext context)
+            //ApplicationDbContext context,
+            UsuarioAutenticado usuarioAutenticado
+            )
         {
             _configuration = configuration;
             _emailConnectionProvider = emailConnectionProvider;
             _notificationStore = notificationStore;
-            _context = context;
+            //_context = context;
+            _usuarioAutenticado = usuarioAutenticado;
         }
 
         public async Task<List<InboxMessage>> LeerMensajesRecibidos()
         {
+            var usuarioId = _usuarioAutenticado.ObtenerUsuario();
             var mensajes = new List<InboxMessage>();
             using var client = _emailConnectionProvider.GetImapClient();
             // Seleccionar la bandeja de entrada
@@ -56,7 +63,7 @@ namespace Infrastructure.Services.Mail
 
                     var nuevo = new InboxMessage
                     {
-                        DestinatarioID = 12, // reemplázalo dinámicamente si usas claims
+                        DestinatarioID = usuarioId.Id, // reemplázalo dinámicamente si usas claims
                         Uid = uid.Id.ToString(),
                         De = mensaje.From.ToString(),
                         Para = mensaje.To.ToString(),
@@ -68,28 +75,29 @@ namespace Infrastructure.Services.Mail
                         FirmadoPor = mensaje.Headers["DKIM-Signature"]?.Split("d=")[1]?.Split(';')[0]?.Trim() ?? string.Empty,
                         Seguridad = mensaje.Headers["Received"]?.Contains("TLS") == true ? "TLS" : "Sin cifrado",
                     };
+                _notificationStore.Agregar(nuevo);
 
-                    _context.InboxMessage.Add(nuevo);
+                    //_context.InboxMessage.Add(nuevo);
 
                     // Notificación si es respuesta a otro mensaje
-                    var originalMessage = _context.SentMessage.FirstOrDefault(s => s.MessageId == mensaje.InReplyTo);
-                    if (originalMessage != null)
-                    {
-                        _context.Notification.Add(new Notification
-                        {
-                            Titulo = "Nuevo Mensaje Respondido",
-                            Mensaje = $"{mensaje.From} ha respondido tu mensaje {originalMessage.Asunto}.",
-                            Fecha = DateTime.UtcNow,
-                            UsuarioId = originalMessage.RemitenteId,
-                            Url = "/Home/Index"
-                        });
-                    }
+                //    var originalMessage = _context.SentMessage.FirstOrDefault(s => s.MessageId == mensaje.InReplyTo);
+                //    if (originalMessage != null)
+                //    {
+                //        _context.Notification.Add(new Notification
+                //        {
+                //            Titulo = "Nuevo Mensaje Respondido",
+                //            Mensaje = $"{mensaje.From} ha respondido tu mensaje {originalMessage.Asunto}.",
+                //            Fecha = DateTime.UtcNow,
+                //            UsuarioId = originalMessage.RemitenteId,
+                //            Url = "/Home/Index"
+                //        });
+                //    }
 
-                    mensajes.Add(nuevo); // agregamos a la lista a retornar
-                //}
+                //    mensajes.Add(nuevo); // agregamos a la lista a retornar
+                ////}
             }
 
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
             client.Disconnect(true);
 
             return mensajes.OrderByDescending(m => m.Fecha).ToList();

@@ -23,6 +23,7 @@ namespace Infrastructure.Seguridad
             var nombres = usuario.Nombre + " " + usuario.Apellido;
             var claims = new List<Claim>
         {
+            new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
             new Claim(ClaimTypes.Name, nombres),
             new Claim(ClaimTypes.Email, usuario.CorreoElectronico),
             new Claim(ClaimTypes.Locality, usuario.Perfil),
