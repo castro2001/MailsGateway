@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Application.DTO.PlantillaDTO>;
+
+@{
+     ViewData["Title"] = "Seleccionar Plantilla ";
+
+}
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <img src="@item.ImagenUrl" class="card-img-top" alt="@item.Nombre" />
+                <div class="card-body">
+                    <h5 class="card-title">@item.Nombre</h5>
+                    <a href="@Url.Action("Visualizar", "Plantilla", new { Nombre = item.Nombre })" class="btn btn-primary">
+                        Seleccionar plantilla
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

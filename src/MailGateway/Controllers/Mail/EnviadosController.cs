@@ -5,7 +5,7 @@ using Shared.Helper;
 
 namespace MailGateway.Controllers.Mail
 {
-    [Authorize]
+    //[Authorize]
     public class EnviadosController : Controller
     {
         private readonly IEmailReaderMessageService _emailReaderMessageService;

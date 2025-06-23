@@ -4,7 +4,7 @@ namespace Domain.Entidades.Mail
 {
     public class SentMessage
     {
-        public int Id { get; set; } 
+        public string Id { get; set; } 
         public string? MessageId { get; set; } // este ID lo usan los clientes de correo para "responder"
         public string Para { get; set; } = string.Empty!; // Correo del destinatario, por defecto vacío
         public string? Asunto { get; set; } 

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MailGateway.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class RedactarController : Controller
     {
         private readonly IEmailSenderService _emailSenderService;
@@ -62,6 +62,18 @@ namespace MailGateway.Controllers
                 return View();
             }
         }
+
+        [HttpPost]
+        public IActionResult Responder(EmailDTO emailDTO) {
+            return View(emailDTO);
+        }
+
+        [HttpPost]
+        public IActionResult Reenviar(EmailDTO emailDTO)
+        {
+            return View(emailDTO);
+        }
+
 
     }
 }

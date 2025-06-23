@@ -56,6 +56,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyZmlsXFBlcmZpbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Plantilla/Editar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbnRpbGxhXEVkaXRhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Plantilla/Seleccionar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbnRpbGxhXFNlbGVjY2lvbmFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Plantilla/visualizar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhbnRpbGxhXHZpc3VhbGl6YXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Redactar/Redactar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVkYWN0YXJcUmVkYWN0YXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

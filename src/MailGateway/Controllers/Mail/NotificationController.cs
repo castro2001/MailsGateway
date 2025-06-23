@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MailGateway.Controllers.Mail
 {
-    [Authorize]
+    //[Authorize]
     public class NotificationController : Controller
     {
         private readonly INotificationStore _notificationStore;
@@ -15,7 +15,7 @@ namespace MailGateway.Controllers.Mail
         {
             _notificationStore = notificationStore;
         }
-        [HttpGet]
+
         [HttpGet]
         public IActionResult ObtenerMensajesEnviados()
         {

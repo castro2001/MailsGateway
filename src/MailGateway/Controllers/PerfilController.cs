@@ -6,11 +6,11 @@ using Shared.Helper;
 using System.Security.Claims;
 namespace MailGateway.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class PerfilController : Controller
     {
-        private readonly UsuarioRepositoy _usuarioRepository;
-        public PerfilController(UsuarioRepositoy usuarioRepository)
+        private readonly UsuarioRepository _usuarioRepository;
+        public PerfilController(UsuarioRepository usuarioRepository)
         {
             _usuarioRepository = usuarioRepository;
         }

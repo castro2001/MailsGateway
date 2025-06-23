@@ -23,6 +23,7 @@
   <ItemGroup>
     <Folder Include="Models\NewFolder\" />
     <Folder Include="Views\Seguridad\" />
+    <Folder Include="wwwroot\Plantillas\" />
   </ItemGroup>
 
   <ItemGroup>

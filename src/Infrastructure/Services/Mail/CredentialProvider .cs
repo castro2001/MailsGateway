@@ -5,11 +5,11 @@ using Shared.Helper;
 
 namespace Domain.Entidades.Mail
 {
-    public class CredentialProvider : ICredentialProvider
+    public class CredentialProvider 
     {
-        private readonly UsuarioRepositoy _usuarioRepository;
+        private readonly UsuarioRepository _usuarioRepository;
         private readonly CryptoHelper _cryptoHelper;
-        public CredentialProvider(UsuarioRepositoy usuarioRepository, CryptoHelper cryptoHelper)
+        public CredentialProvider(UsuarioRepository usuarioRepository, CryptoHelper cryptoHelper)
         {
             _cryptoHelper = cryptoHelper;
             _usuarioRepository = usuarioRepository;
@@ -17,8 +17,8 @@ namespace Domain.Entidades.Mail
         public async Task<(string Correo, string ClaveAplicacion)> ObtenerCredencialesAsync(string correo)
         {
             var usuario = await _usuarioRepository.obtenerUsuarioCorreo(correo);
-           /* if (usuario == null || string.IsNullOrEmpty(usuario.PasswordSecret))
-                throw new Exception("Usuario no encontrado o sin clave de aplicación configurada");*/
+            if (usuario == null || string.IsNullOrEmpty(usuario.PasswordSecret))
+                throw new Exception("Usuario no encontrado o sin clave de aplicación configurada");
 
             var clave = _cryptoHelper.Decrypt(usuario.PasswordSecret);
             return (usuario.CorreoElectronico, clave);

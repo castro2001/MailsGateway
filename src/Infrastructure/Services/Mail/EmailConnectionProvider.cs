@@ -12,25 +12,25 @@ namespace Infrastructure.Services.Mail
     public class EmailConnectionProvider : IEmailConnectionProvider
     {
         private readonly IConfiguration _configuration;
-        private readonly ICredentialProvider _credentialProvider;
+        //private readonly ICredentialProvider _credentialProvider;
         private readonly IHttpContextAccessor _contextAccessor;
-        public EmailConnectionProvider(IConfiguration configuration, ICredentialProvider credentialProvider, IHttpContextAccessor contextAccessor)
+        public EmailConnectionProvider(IConfiguration configuration, IHttpContextAccessor contextAccessor)
         {
             _configuration = configuration;
-            _credentialProvider=  credentialProvider;
+            //_credentialProvider=  credentialProvider; , ICredentialProvider credentialProvider
             _contextAccessor = contextAccessor;
         }
 
 
         public SmtpClient GetSmtpClient()
         {
-            var correo = _contextAccessor.HttpContext?.User?.Claims
+            /*var correo = _contextAccessor.HttpContext?.User?.Claims
                                                        .FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
 
             if (string.IsNullOrEmpty(correo))
-                throw new Exception("Usuario no autenticado");
+                throw new Exception("Usuario no autenticado");smtp.Authenticate(correoElectronico, PasswordSecret);
 
-            var (correoElectronico, PasswordSecret) = _credentialProvider.ObtenerCredencialesAsync(correo).Result;
+            var (correoElectronico, PasswordSecret) = _credentialProvider.ObtenerCredencialesAsync(correo).Result;*/
 
             var smtp = new SmtpClient();
             // ⚠️ Solo para desarrollo:
@@ -45,26 +45,26 @@ namespace Infrastructure.Services.Mail
             //var username = _credentialProvider.Username ?? _configuration.GetSection("Email:Username").Value;
             //var password = _credentialProvider.Password ?? _configuration.GetSection("Email:Password").Value;
 
-            smtp.Authenticate(correoElectronico, PasswordSecret);
+            
 
 
             //Authenticate the SMTP client using the credentials from configuration
-            /*  smtp.Authenticate(
+             smtp.Authenticate(
                   _configuration.GetSection("Email:Username").Value,
-                  _configuration.GetSection("Email:Password").Value* );*/
+                  _configuration.GetSection("Email:Password").Value);
 
               return smtp;
           }
 
           public ImapClient GetImapClient()
           {
-              var correo = _contextAccessor.HttpContext?.User?.Claims
+            /*  var correo = _contextAccessor.HttpContext?.User?.Claims
                                                               .FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
 
               if (string.IsNullOrEmpty(correo))
                   throw new Exception("Usuario no autenticado");
 
-              var (correoElectronico, PasswordSecret) = _credentialProvider.ObtenerCredencialesAsync(correo).Result;
+              var (correoElectronico, PasswordSecret) = _credentialProvider.ObtenerCredencialesAsync(correo).Result;*/
 
               var client = new ImapClient();
                   client.Connect(
@@ -78,11 +78,11 @@ namespace Infrastructure.Services.Mail
               //Despues voy agregar validacion de usuario y contraseña por defecto
               //YO ya use mis credenciales de gmail y funcionan bien
               //Ahora solo falta que el usuario pueda agregar su contraseña de aplicación
-             client.Authenticate(correoElectronico, PasswordSecret);
-             /* client.Authenticate(
+             //client.Authenticate(correoElectronico, PasswordSecret);
+              client.Authenticate(
                       _configuration.GetSection("Email:Username").Value,
                       _configuration.GetSection("Email:Password").Value
-                  );*/
+                  );
             return client;
             
           

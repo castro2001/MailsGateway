@@ -2,7 +2,6 @@
 using Application.DTO.Usuarios;
 using Application.Interfaces.Seguridad;
 using Domain.Entidades.Seguridad;
-using Infrastructure.Repository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +12,12 @@ namespace MailGateway.Controllers.Seguridad
 {
     public class AccesoController : Controller
     {
-        private readonly UsuarioRepositoy _usuarioRepository;
+        //private readonly UsuarioRepositoy _usuarioRepository;
         private readonly IAuthServices _authServices;
 
-        public AccesoController(UsuarioRepositoy usuarioRepository, IAuthServices authServices)
+        public AccesoController( IAuthServices authServices)
         {
-            _usuarioRepository = usuarioRepository;
+            //_usuarioRepository = usuarioRepository;
             _authServices = authServices;
         }
 
@@ -41,22 +40,22 @@ namespace MailGateway.Controllers.Seguridad
         [HttpPost]
         public async Task<IActionResult> Login( LoginDTO usuarioDTO)
         {
-            var usuarioValidate = await _usuarioRepository.ValidarUsuarioAsync(usuarioDTO);
-            if (usuarioValidate != null)
-            {
-                var usuario = new Usuario
-                {
+            //var usuarioValidate = await _usuarioRepository.ValidarUsuarioAsync(usuarioDTO);
+            //if (usuarioValidate != null)
+            //{
+            //    var usuario = new Usuario
+            //    {
     
-                    Nombre = usuarioValidate.Nombre,
-                    Apellido = usuarioValidate.Apellido,
-                    CorreoElectronico = usuarioValidate.CorreoElectronico,
-                    Perfil = usuarioValidate.Perfil
-                };
-                await _authServices.AutenticarUsuarioAsync(usuario);
-                return RedirectToAction("Index", "Home");
-            }
-            ViewData["message"] = "Usuario o Contraseña incorrectos";
-            RedirectToAction();
+            //        Nombre = usuarioValidate.Nombre,
+            //        Apellido = usuarioValidate.Apellido,
+            //        CorreoElectronico = usuarioValidate.CorreoElectronico,
+            //        Perfil = usuarioValidate.Perfil
+            //    };
+            //    await _authServices.AutenticarUsuarioAsync(usuario);
+            //    return RedirectToAction("Index", "Home");
+            //}
+            //ViewData["message"] = "Usuario o Contraseña incorrectos";
+            //RedirectToAction();
             return View();
         }
 
@@ -65,7 +64,7 @@ namespace MailGateway.Controllers.Seguridad
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registro(RegistroDTO usuarioDTO)
         {
-            if (!ModelState.IsValid)
+           /* if (!ModelState.IsValid)
             {
                 return View(usuarioDTO);
 
@@ -112,7 +111,7 @@ namespace MailGateway.Controllers.Seguridad
                 ViewBag.Message = $"Error al guardar el registro: {resultado.Message}";
             }
 
-
+            */
             return View(new RegistroDTO());
         }
 

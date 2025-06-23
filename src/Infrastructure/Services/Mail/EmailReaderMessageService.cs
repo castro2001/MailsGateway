@@ -17,6 +17,7 @@ namespace Infrastructure.Services.Mail
             _emailConnectionProvider = emailConnectionProvider;
         }
 
+
         public InboxMessage DetalleMensajesEnviados(uint id)
         {
             using var client = _emailConnectionProvider.GetImapClient();
@@ -50,7 +51,9 @@ namespace Infrastructure.Services.Mail
             messageSentFolder.Open(FolderAccess.ReadOnly);
 
             // Establecer el filtro de hora (hoy a las 18:57)
-            DateTime horaInicio = DateTime.Today.AddHours(18).AddMinutes(57);
+            //DateTime horaInicio = DateTime.Today.AddHours(18).AddMinutes(57);
+            DateTime horaInicio = DateTime.UtcNow.AddDays(-1);
+
 
             // Buscar los correos entregados después de esa hora
             var uids = messageSentFolder.Search(SearchQuery.DeliveredAfter(horaInicio));
@@ -58,10 +61,10 @@ namespace Infrastructure.Services.Mail
             foreach (var uid in uids)
             {
                 var mensaje = messageSentFolder.GetMessage(uid);
-                //uint id = uid.Id;
+                uint id = uid.Id;
                 mensajes.Add(new InboxMessage
                 {
-                   // Uid = id,
+                    Uid = id.ToString(),
                     De = mensaje.From.ToString(),
                     Para = mensaje.To.ToString(),
                     Asunto = mensaje.Subject,
@@ -71,9 +74,7 @@ namespace Infrastructure.Services.Mail
                 });
             }
             client.Disconnect(true);
-            // Ordena los mensajes del más reciente al más antiguo
-            mensajes = mensajes.OrderByDescending(m => m.Fecha).ToList();
-            
+
 
             return mensajes;
 

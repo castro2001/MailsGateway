@@ -6,7 +6,7 @@ using Shared.Helper;
 using Microsoft.AspNetCore.Authorization;
 namespace MailGateway.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -24,9 +24,9 @@ namespace MailGateway.Controllers
 
         }
 
-        public async Task< IActionResult> Index()
+        public IActionResult Index()
         {
-            var correos = await _emailReaderService.LeerMensajesRecibidos();
+            var correos =  _emailReaderService.LeerMensajesRecibidos();
             //ncriptar UID aquí
             foreach (var correo in correos)
            {
