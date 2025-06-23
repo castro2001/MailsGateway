@@ -251,6 +251,10 @@
             "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
               "version": "[9.0.5, )"
+            },
+            "PreMailer.Net": {
+              "target": "Package",
+              "version": "[2.7.0, )"
             }
           },
           "imports": [
@@ -347,6 +351,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[8.0.7, )"
+            },
+            "PreMailer.Net": {
+              "target": "Package",
+              "version": "[2.7.0, )"
             }
           },
           "imports": [

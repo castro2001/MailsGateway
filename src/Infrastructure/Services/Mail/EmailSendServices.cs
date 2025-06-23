@@ -4,8 +4,8 @@ using Application.Interfaces;
 using Domain.Entidades.Mail;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
-using MimeKit.Text;
-using System;
+using PreMailer.Net;
+
 using System.Text.RegularExpressions;
 
 
@@ -37,6 +37,10 @@ namespace Infrastructure.Services.Mail
 
             string htmlTemplate = File.ReadAllText(templatePath);
             string bodyHtml = htmlTemplate.Replace("{{Contenido}}", request.Contenido);
+            var preMailer = new PreMailer.Net.PreMailer(bodyHtml);
+            var resultado = preMailer.MoveCssInline();
+            bodyHtml = resultado.Html;
+
 
             var builder = new BodyBuilder
             {

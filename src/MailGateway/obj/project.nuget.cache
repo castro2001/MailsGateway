@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "55+dr4GuxPo=",
+  "dgSpecHash": "ZwRb3pKwOKI=",
   "success": true,
   "projectFilePath": "C:\\Users\\Jordan Castro\\Documents\\GitHub\\MailsGateway\\src\\MailGateway\\MailGateway.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Jordan Castro\\.nuget\\packages\\anglesharp\\1.1.0\\anglesharp.1.1.0.nupkg.sha512",
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
@@ -156,6 +157,7 @@
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\nuget.projectmodel\\6.11.0\\nuget.projectmodel.6.11.0.nupkg.sha512",
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\nuget.protocol\\6.11.0\\nuget.protocol.6.11.0.nupkg.sha512",
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\nuget.versioning\\6.11.0\\nuget.versioning.6.11.0.nupkg.sha512",
+    "C:\\Users\\Jordan Castro\\.nuget\\packages\\premailer.net\\2.7.0\\premailer.net.2.7.0.nupkg.sha512",
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\system.buffers\\4.6.0\\system.buffers.4.6.0.nupkg.sha512",
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\system.clientmodel\\1.0.0\\system.clientmodel.1.0.0.nupkg.sha512",
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\system.codedom\\6.0.0\\system.codedom.6.0.0.nupkg.sha512",
@@ -184,6 +186,7 @@
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\system.security.cryptography.protecteddata\\8.0.0\\system.security.cryptography.protecteddata.8.0.0.nupkg.sha512",
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\system.security.cryptography.xml\\8.0.2\\system.security.cryptography.xml.8.0.2.nupkg.sha512",
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\system.security.principal.windows\\5.0.0\\system.security.principal.windows.5.0.0.nupkg.sha512",
+    "C:\\Users\\Jordan Castro\\.nuget\\packages\\system.text.encoding.codepages\\8.0.0\\system.text.encoding.codepages.8.0.0.nupkg.sha512",
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\system.text.encodings.web\\9.0.5\\system.text.encodings.web.9.0.5.nupkg.sha512",
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\system.text.json\\9.0.5\\system.text.json.9.0.5.nupkg.sha512",
     "C:\\Users\\Jordan Castro\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512",

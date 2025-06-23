@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MailGateway")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+abe96121f2c722ade19fd75da17fc80245d34836")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5146391d730ee18dff76524afde24c21ce606cd0")]
 [assembly: System.Reflection.AssemblyProductAttribute("MailGateway")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MailGateway")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,4 +1,6 @@
 ﻿using Application.DTO;
+using Application.DTOS;
+using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -6,6 +8,16 @@ namespace MailGateway.Controllers
 {
     public class PlantillaController: Controller
     {
+        private readonly INotificationStore _notificationStore;
+        private readonly IEmailSenderService _emailSenderService;
+
+
+        public PlantillaController(INotificationStore notificationStore, IEmailSenderService emailSenderService)
+        {
+            _notificationStore = notificationStore;
+            _emailSenderService = emailSenderService;
+        }
+
         [HttpGet]
         public IActionResult Seleccionar()
         {
@@ -15,7 +27,7 @@ namespace MailGateway.Controllers
                 new() { Id = 1, Nombre = "Confirmacion", ImagenUrl = "/img/confirmacion.png" },
                 new() { Id = 2, Nombre = "Promocion", ImagenUrl = "/img/promocion.png" },
                 new() { Id = 3, Nombre = "Notificacion", ImagenUrl = "/img/notificacion.png" },
-                new() { Id = 3, Nombre = "Reporte", ImagenUrl = "/img/reporte.png" }
+                new() { Id = 4, Nombre = "Reporte", ImagenUrl = "/img/reporte.png" }
             };
              return View(plantillas);
         }
@@ -39,6 +51,7 @@ namespace MailGateway.Controllers
                 NombrePlantilla = plantilla.Nombre,
                 ContenidoHtml = html
             };
+            _notificationStore.Agregar(modelo);
 
             return View(modelo);
         }
@@ -46,16 +59,53 @@ namespace MailGateway.Controllers
         [HttpGet]
         public IActionResult Editar(PlantillaCorreoDTO plantillaDTO)
         {
-            var plantilla = new PlantillaCorreoDTO()
+            var plantilla = _notificationStore.Obtener<PlantillaCorreoDTO>(x => x as PlantillaCorreoDTO)
+                .FirstOrDefault(x => x.Id == plantillaDTO.Id);
+            if (plantilla == null)
             {
-                Id = plantillaDTO.Id,
-                NombrePlantilla = plantillaDTO.NombrePlantilla,
-                ContenidoHtml = plantillaDTO.ContenidoHtml
-            };
-
+                TempData["Error"] = "No se encontró la plantilla en memoria.";
+                return RedirectToAction("Seleccionar");
+            }
             return View(plantilla);
         }
 
 
+        [HttpPost]
+        public IActionResult Redactar(PlantillaCorreoDTO plantillaDTO)
+        {
+            if (string.IsNullOrWhiteSpace(plantillaDTO.Para))
+            {
+                ViewBag.Error = "El campo Para es obligatorio";
+                return View();
+            }
+
+            if (string.IsNullOrWhiteSpace(plantillaDTO.Asunto))
+            {
+                ViewBag.Error = "El campo Asunto es obligatorio";
+                return View();
+            }
+            var email = new EmailDTO
+            {
+                Para = plantillaDTO.Para,
+                Asunto = plantillaDTO.Asunto,
+                Contenido = plantillaDTO.ContenidoHtml,
+            };
+
+            var resultado = _emailSenderService.SendEmail(email);
+
+            if (resultado.Success)
+            {
+                ViewBag.Success = "Correo enviado correctamente.";
+                return View("Editar",new PlantillaCorreoDTO());
+            }
+            else
+            {
+                ViewBag.Error = $"Error al enviar correo: {resultado.ErrorMessage}";
+                return View();
+            }
         }
+
+
+
     }
+}

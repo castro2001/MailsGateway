@@ -64,6 +64,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Plantilla}/{action=Seleccionar}");
+    pattern: "{controller=Home}/{action=Index}");
 
 app.Run();

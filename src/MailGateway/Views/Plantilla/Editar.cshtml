@@ -1,16 +1,166 @@
 ﻿@model Application.DTO.PlantillaCorreoDTO;
+@section Styles {
+    <link rel="stylesheet" href="~/lib/summernote/summernote-bs4.min.css" />
+    <link rel="stylesheet" href="~/lib/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="~/lib/dropzone/min/dropzone.min.css" />
+
+}
 
 @{
     ViewData["Title"] = Model.NombrePlantilla;
-
-
 }
-<h2>Vista previa: @Model.NombrePlantilla</h2>
-
-@* <div class="card mb-3">
-    <div class="card-body">
-        <iframe srcdoc="@Model.ContenidoHtml" style="width:100%; height:500px; border:1px solid #ccc;"></iframe>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@ViewBag.Error</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-</div>
+}
 
- *@
+@if (ViewBag.Success != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@ViewBag.Success</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<form asp-controller="Plantilla" asp-action="Redactar" method="post" enctype="multipart/form-data">
+    <div class="card-body">
+        <div class="form-group">
+            <input class="form-control" asp-for="Para" placeholder="To:" />
+        </div>
+        <div class="form-group">
+            <input class="form-control" asp-for="Asunto" placeholder="Subject:" value="Plantilla @Model.NombrePlantilla" />
+        </div>
+        <div class="form-group">
+            <!-- Input de archivos oculto con id explícito -->
+            <input type="file" name="Imagenes" id="imagenes" multiple hidden />
+
+            <!-- Editor de texto enriquecido -->
+            <textarea asp-for="ContenidoHtml" class="form-control" style="height: 300px">
+            @Html.Raw(Model.ContenidoHtml)
+            </textarea>
+        </div>
+
+
+    <div class="card-footer">
+        <div class="float-right">
+            <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Borrador</button>
+            <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Enviar</button>
+        </div>
+        <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Descartar</button>
+    </div>
+</form>
+
+
+
+@section Scripts {
+    <script src="~/lib/summernote/summernote-bs4.min.js"></script>
+    <script src="~/lib/dropzone/min/dropzone.min.js"></script>
+
+    <script>
+        $(function () {
+            $('#ContenidoHtml').summernote({
+                height: 300,
+                callbacks: {
+                    onImageUpload: function (files) {
+                        const input = document.getElementById('imagenes');
+                        const dataTransfer = new DataTransfer();
+
+                        for (let j = 0; j < input.files.length; j++) {
+                            dataTransfer.items.add(input.files[j]);
+                        }
+
+                        for (let i = 0; i < files.length; i++) {
+                            const file = files[i];
+
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                $('#Contenido').summernote('insertImage', e.target.result, file.name);
+                            };
+                            reader.readAsDataURL(file);
+
+                            dataTransfer.items.add(file);
+                        }
+
+                        input.files = dataTransfer.files;
+                    }
+                }
+            });
+
+            // Mostrar nombres de archivos adjuntos seleccionados
+            $('#ArchivosAdjuntos').on('change', function () {
+                const lista = $('#listaAdjuntos');
+                lista.empty();
+
+                for (let i = 0; i < this.files.length; i++) {
+                    const file = this.files[i];
+                    lista.append(`<div><i class="fas fa-paperclip"></i> ${file.name}</div>`);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(function () {
+      
+        // BS-Stepper Init
+        document.addEventListener('DOMContentLoaded', function () {
+          window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+        })
+
+        // DropzoneJS Demo Code Start
+        Dropzone.autoDiscover = false
+
+        // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+        var previewNode = document.querySelector("#template")
+        previewNode.id = ""
+        var previewTemplate = previewNode.parentNode.innerHTML
+        previewNode.parentNode.removeChild(previewNode)
+
+        var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+          url: "/target-url", // Set the url
+          thumbnailWidth: 80,
+          thumbnailHeight: 80,
+          parallelUploads: 20,
+          previewTemplate: previewTemplate,
+          autoQueue: false, // Make sure the files aren't queued until manually added
+          previewsContainer: "#previews", // Define the container to display the previews
+          clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+        })
+
+        myDropzone.on("addedfile", function(file) {
+          // Hookup the start button
+          file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file) }
+        })
+
+        // Update the total progress bar
+        myDropzone.on("totaluploadprogress", function(progress) {
+          document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
+        })
+
+        myDropzone.on("sending", function(file) {
+          // Show the total progress bar when upload starts
+          document.querySelector("#total-progress").style.opacity = "1"
+          // And disable the start button
+          file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
+        })
+
+        // Hide the total progress bar when nothing's uploading anymore
+        myDropzone.on("queuecomplete", function(progress) {
+          document.querySelector("#total-progress").style.opacity = "0"
+        })
+
+        // Setup the buttons for all transfers
+        // The "add files" button doesn't need to be setup because the config
+        // `clickable` has already been specified.
+        document.querySelector("#actions .start").onclick = function() {
+          myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
+        }
+        document.querySelector("#actions .cancel").onclick = function() {
+          myDropzone.removeAllFiles(true)
+        }
+        // DropzoneJS Demo Code End
+    </script>
+}

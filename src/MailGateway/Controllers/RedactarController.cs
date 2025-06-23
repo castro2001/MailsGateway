@@ -13,6 +13,7 @@ namespace MailGateway.Controllers
         {
             _emailSenderService = emailSenderService; 
         }
+        [HttpGet]
         public IActionResult Redactar()
         {
      
@@ -63,15 +64,9 @@ namespace MailGateway.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult Responder(EmailDTO emailDTO) {
-            return View(emailDTO);
-        }
-
-        [HttpPost]
-        public IActionResult Reenviar(EmailDTO emailDTO)
-        {
-            return View(emailDTO);
+        [HttpGet]
+        public IActionResult Plantilla() {
+            return View();
         }
 
 

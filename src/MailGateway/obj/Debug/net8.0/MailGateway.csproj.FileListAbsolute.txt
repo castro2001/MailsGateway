@@ -315,3 +315,5 @@ C:\Users\Jordan Castro\Documents\GitHub\MailsGateway\src\MailGateway\obj\Debug\n
 C:\Users\Jordan Castro\Documents\GitHub\MailsGateway\src\MailGateway\obj\Debug\net8.0\MailGateway.pdb
 C:\Users\Jordan Castro\Documents\GitHub\MailsGateway\src\MailGateway\obj\Debug\net8.0\MailGateway.genruntimeconfig.cache
 C:\Users\Jordan Castro\Documents\GitHub\MailsGateway\src\MailGateway\obj\Debug\net8.0\ref\MailGateway.dll
+C:\Users\Jordan Castro\Documents\GitHub\MailsGateway\src\MailGateway\bin\Debug\net8.0\AngleSharp.dll
+C:\Users\Jordan Castro\Documents\GitHub\MailsGateway\src\MailGateway\bin\Debug\net8.0\PreMailer.Net.dll
