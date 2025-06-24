@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Log in (v2) @ViewBag.Title ?? "Acceso al Sistema"</title>
+    <title>MailGateway - Plataforma de Gestión de Correos  @ViewBag.Title ?? ""</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -16,26 +16,12 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="~/lib/dropzone/min/dropzone.min.css" />
-
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="hold-transition ">
-    <div class="container mt-5">
-    
-        <div class="row justify-content-center">
-            <!-- g-4 para espacio entre cards -->
 
-         
-                        @RenderBody()
-      
-
-       
-
-        </div>
-    </div>
-
-
-
-
+      @RenderBody()
+ 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>

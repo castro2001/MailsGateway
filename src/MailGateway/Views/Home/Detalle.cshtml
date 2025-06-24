@@ -8,20 +8,79 @@
     ViewData["LinkAction"] = "Index";
     ViewData["LinkText"] = "Volver a la bandeja de entrada";
 }
+<div class="col-md-3">
+    <section class="card">
+        <div class="card-header">
+            <h3 class="card-title">¿Cómo deseas redactar el mensaje?</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
 
+        <div class="card-body p-0">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a asp-action="Redactar" asp-controller="Redactar" class="nav-link">
+                        <i class="fas fa-edit text-primary"></i>
+                        <strong>Redacción libre</strong><br />
+                        <small class="text-muted">Escribe el mensaje desde cero</small>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-action="Plantilla" asp-controller="Redactar" class="nav-link">
+                        <i class="fas fa-file-alt text-success"></i>
+                        <strong>Usar plantilla</strong><br />
+                        <small class="text-muted">Basado en un diseño predefinido</small>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-action ="Index" asp-controller="Home" class="nav-link">
+                        <i class="fas fa-arrow-left text-primary"></i>
+                        <strong>Volver a la bandeja de entrada</strong><br />
 
-<!-- /.card-body -->
-<!-- Aquí llamas el partial pasando el modelo -->
-@Html.Partial("~/Views/Shared/Mail/_Detalle.cshtml", Model)
-<!-- /.card-footer -->
-<div class="card-footer">
-    <div class="float-right">
-        <button type="button" class="btn btn-default"><i class="fas fa-reply"></i> Responder</button>
-        <button type="button" class="btn btn-default"><i class="fas fa-share"></i> Reenviar</button>
-    </div>
-@*     <button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i> Delete</button>
-    <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button> *@
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
 </div>
+
+<div class="col-md-9">
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            <h2 class="card-title">@ViewData["CardTitle"]</h2>
+
+            @if (ViewBag.IsSearch != 0)
+            {
+                <div class="card-tools">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" placeholder="Search Mail">
+                        <div class="input-group-append">
+                            <div class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        @Html.Partial("~/Views/Shared/Mail/_Detalle.cshtml", Model)>
+        <div class="card-footer">
+            <div class="float-right">
+                <button type="button" class="btn btn-default"><i class="fas fa-reply"></i> Responder</button>
+                <button type="button" class="btn btn-default"><i class="fas fa-share"></i> Reenviar</button>
+            </div>
+
+        </div>
+
+
+    </div>
+   
+</div>
+
+
 
 @section Scripts {
     <script>

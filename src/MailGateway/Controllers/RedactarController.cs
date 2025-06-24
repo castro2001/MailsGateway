@@ -64,10 +64,7 @@ namespace MailGateway.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult Plantilla() {
-            return View();
-        }
+      
 
 
     }

@@ -5,17 +5,52 @@
 
 
 }
-<h2>Vista previa: @Model.NombrePlantilla</h2>
 
-<div class="card mb-3">
-    <div class="card-body">
-        <iframe srcdoc="@Model.ContenidoHtml" style="width:100%; height:500px; border:1px solid #ccc;"></iframe>
+
+<div class="col-md-3">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"> ✍️ Visualización de la Plantilla</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="card-body p-0">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a asp-action="Seleccionar" asp-controller="Plantilla" class="nav-link">
+                        <i class="fas fa-arrow-left text-primary"></i>
+                        <strong>Escoger otra Plantilla</strong><br />
+
+
+                    </a>
+                </li>
+
+            </ul>
+        </div>
     </div>
 </div>
 
+<div class="col-md-9">
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            <h3 class="card-title">Visualización de la Plantilla - <strong> @Model.NombrePlantilla</strong>  </h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <iframe srcdoc="@Model.ContenidoHtml" width="100%" height="400" frameborder="0"></iframe>
 
-<a href="@Url.Action("Seleccionar", "Plantilla")" class="btn btn-secondary">Volver</a>
+            <!-- /.card-body -->
+            <div class="card-footer ">
+                <div class="float-right">
+                    <a href="@Url.Action("Editar", "Plantilla", new { Nombre = Model.NombrePlantilla })"  onclick='location.href="http://127.0.0.1:3000/Layout/editar.html"' class="btn btn-primary"><i class="far fa-envelope"></i> Editar</a>
+                </div>
+            </div>
+        </div>
+        <!-- /.card -->
+    </div>
 
-<a href="@Url.Action("Editar", "Plantilla", new { Nombre= Model.NombrePlantilla })" class="btn btn-primary">
-    Editar plantilla
-</a>
+</div>

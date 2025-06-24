@@ -32,114 +32,99 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
-
-<form asp-controller="Redactar" asp-action="Redactar" method="post" enctype="multipart/form-data">
-    <div class="card-body">
-        <div class="form-group">
-            <input class="form-control" asp-for="Para" placeholder="To:" />
-        </div>
-        <div class="form-group">
-            <input class="form-control" asp-for="Asunto" placeholder="Subject:" />
-        </div>
-        <div class="form-group">
-            <!-- Input de archivos oculto con id explícito -->
-            <input type="file" asp-for="Imagenes" id="imagenes" multiple hidden />
-
-            <!-- Editor de texto enriquecido -->
-            <textarea asp-for="Contenido" class="form-control" style="height: 300px">
-            <h1><u>Encabezado del mensaje</u></h1>
-            <p>Ejemplo de contenido con listas e imágenes incrustadas.</p>
-            </textarea>
-        </div>
-            <div class="form-group">
-                <div class="btn btn-default btn-file">
-                    <i class="fas fa-paperclip"></i> Attachment
-                    <input type="file" asp-for="ArchivosAdjuntos" id="ArchivosAdjuntos" multiple class="form-control">
-                    <div id="listaAdjuntos" class="mt-2"></div>
-
-                </div>
-                <p class="help-block">Max. 32MB</p>
-            </div>
-        </div>
-    <div class="card card-default">
+<div class="col-md-3">
+    <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Dropzone.js <small><em>jQuery File Upload</em> like look</small></h3>
-        </div>
-        <div class="card-body">
-            <div id="actions" class="row">
-                <div class="col-lg-6">
-                    <div class="btn-group w-100">
-                        <span class="btn btn-success col fileinput-button">
-                            <i class="fas fa-plus"></i>
-                            <span>Add files</span>
-                        </span>
-                        <button type="submit" class="btn btn-primary col start">
-                            <i class="fas fa-upload"></i>
-                            <span>Start upload</span>
-                        </button>
-                        <button type="reset" class="btn btn-warning col cancel">
-                            <i class="fas fa-times-circle"></i>
-                            <span>Cancel upload</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="col-lg-6 d-flex align-items-center">
-                    <div class="fileupload-process w-100">
-                        <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                            <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="table table-striped files" id="previews">
-                <div id="template" class="row mt-2">
-                    <div class="col-auto">
-                        <span class="preview"><img src="data:," alt="" data-dz-thumbnail /></span>
-                    </div>
-                    <div class="col d-flex align-items-center">
-                        <p class="mb-0">
-                            <span class="lead" data-dz-name></span>
-                            (<span data-dz-size></span>)
-                        </p>
-                        <strong class="error text-danger" data-dz-errormessage></strong>
-                    </div>
-                    <div class="col-4 d-flex align-items-center">
-                        <div class="progress progress-striped active w-100" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                            <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
-                        </div>
-                    </div>
-                    <div class="col-auto d-flex align-items-center">
-                        <div class="btn-group">
-                            <button class="btn btn-primary start">
-                                <i class="fas fa-upload"></i>
-                                <span>Start</span>
-                            </button>
-                            <button data-dz-remove class="btn btn-warning cancel">
-                                <i class="fas fa-times-circle"></i>
-                                <span>Cancel</span>
-                            </button>
-                            <button data-dz-remove class="btn btn-danger delete">
-                                <i class="fas fa-trash"></i>
-                                <span>Delete</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <h3 class="card-title"> ✍️ Redacción libre de mensaje</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
             </div>
         </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-            Visit <a href="https://www.dropzonejs.com">dropzone.js documentation</a> for more examples and information about the plugin.
+
+        <div class="card-body p-0">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a asp-action="Index" asp-controller="Home" class="nav-link">
+                        <i class="fas fa-arrow-left text-primary"></i>
+                        <strong>Volver</strong><br />
+
+
+                    </a>
+                </li>
+
+            </ul>
         </div>
     </div>
-    <div class="card-footer">
-        <div class="float-right">
-            <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Borrador</button>
-            <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Enviar</button>
+</div>
+
+<div class="col-md-9">
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            <h3 class="card-title">Redactar un nuevo mensaje</h3>
         </div>
-        <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Descartar</button>
+        
+        <form asp-controller="Redactar" asp-action="Redactar" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="card-body">
+                <div class="form-group">
+                    <input class="form-control" asp-for="Para" placeholder="To:" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" asp-for="Asunto" placeholder="Subject:" />
+                </div>
+                <div class="form-group">
+                    <!-- Input de archivos oculto con id explícito -->
+                    <input type="file" asp-for="Imagenes" id="imagenes" multiple hidden />
+                    <textarea asp-for="Contenido"  class="form-control" style="height: 300px">
+                    <h1><u>Heading Of Message</u></h1>
+                    <h4>Subheading</h4>
+                    <p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain
+                              was born and I will give you a complete account of the system, and expound the actual teachings
+                              of the great explorer of the truth, the master-builder of human happiness. No one rejects,
+                              dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know
+                              how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again
+                              is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain,
+                              but because occasionally circumstances occur in which toil and pain can procure him some great
+                              pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise,
+                              except to obtain some advantage from it? But who has any right to find fault with a man who
+                              chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that
+                              produces no resultant pleasure? On the other hand, we denounce with righteous indignation and
+                              dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so
+                              blinded by desire, that they cannot foresee</p>
+                    <ul>
+                    <li>List item one</li>
+                    <li>List item two</li>
+                    <li>List item three</li>
+                    <li>List item four</li>
+                            </ul>
+                    <p>Thank you,</p>
+                    <p>John Doe</p>
+                          </textarea>
+                </div>
+                <div class="form-group">
+                    <div class="btn btn-default btn-file">
+                        <i class="fas fa-paperclip"></i> Attachment
+                        <input type="file" asp-for="ArchivosAdjuntos" id="ArchivosAdjuntos" multiple class="form-control">
+                        <div id="listaAdjuntos" class="mt-2"></div>
+
+                    </div>
+                    <p class="help-block">Max. 32MB</p>
+                </div>
+            </div>
+
+            <div class="card-footer ">
+                <div class="float-right">
+                    <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Borrador</button>
+                    <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Enviar</button>
+                </div>
+                <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Descartar</button>
+            </div>
+        </form>
     </div>
-</form>
+    
+</div>
 
 @section Scripts {
     <script src="~/lib/summernote/summernote-bs4.min.js"></script>

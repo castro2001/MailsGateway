@@ -24,10 +24,10 @@ namespace MailGateway.Controllers
 
             var plantillas = new List<PlantillaDTO>
             {
-                new() { Id = 1, Nombre = "Confirmacion", ImagenUrl = "/img/confirmacion.png" },
-                new() { Id = 2, Nombre = "Promocion", ImagenUrl = "/img/promocion.png" },
-                new() { Id = 3, Nombre = "Notificacion", ImagenUrl = "/img/notificacion.png" },
-                new() { Id = 4, Nombre = "Reporte", ImagenUrl = "/img/reporte.png" }
+                new() { Id = 1, Nombre = "Confirmacion", ImagenUrl = "/Imagen/Confirmacion.png" },
+                new() { Id = 2, Nombre = "Promocion", ImagenUrl = "/Imagen/Promocion.png" },
+                new() { Id = 3, Nombre = "Notificacion", ImagenUrl = "/Imagen/Notificacion.png" },
+                new() { Id = 4, Nombre = "Reporte", ImagenUrl = "/Imagen/Reporte.png" }
             };
              return View(plantillas);
         }

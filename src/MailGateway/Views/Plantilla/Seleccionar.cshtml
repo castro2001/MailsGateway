@@ -2,23 +2,38 @@
 
 @{
      ViewData["Title"] = "Seleccionar Plantilla ";
-
+    ViewBag.ContentHeader = "Escoge una plantilla para enviar tu mensaje con un diseño profesional y estructurado";
 }
 
+            @foreach (var item in Model)
+            {
+            <section class="col-md-4 mt-2">
+                <div class="card card-widget widget-user shadow-lg h-100 mt-2">
+                        <div class="widget-user-header text-white" style="background-image: url('@item.ImagenUrl');background-position: center;background-size: cover;background-repeat: no-repeat;height: 350px; ">
+                    </div>
 
-<div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="col-md-4">
-            <div class="card mb-3">
-                <img src="@item.ImagenUrl" class="card-img-top" alt="@item.Nombre" />
-                <div class="card-body">
-                    <h5 class="card-title">@item.Nombre</h5>
-                    <a href="@Url.Action("Visualizar", "Plantilla", new { Nombre = item.Nombre })" class="btn btn-primary">
-                        Seleccionar plantilla
-                    </a>
+                    <div class="card-footer p-0">
+                        <ul class="nav flex-column">
+                            <li class="nav-item p-3">
+                                    <h3 class="widget-user-desc text-center fs-5">@item.Nombre </h3>
+
+                            </li>
+                            <li class="nav-item p-3">
+                                <p class="widget-user-username " style="font-size: 15px;text-align: justify;">
+                                    Perfecta para entregar reportes de actividad, estadísticas, informes mensuales o cualquier información formal y detallada.
+                                </p>
+
+                            </li>
+                            <li class="nav-item text-center p-3">
+                                    <a href="@Url.Action("Visualizar", "Plantilla", new { Nombre = item.Nombre })" class="btn btn-primary">
+                                    <i class="fas fa-eye"></i> Usar esta plantilla
+                                </a>
+
+                            </li>
+
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </div>
-    }
-</div>
+            </section>
+            }
+
