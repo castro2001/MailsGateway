@@ -3,9 +3,11 @@ using Application.Interfaces.Mail;
 using Application.Interfaces.Seguridad;
 using Domain.Entidades.Mail;
 using Domain.Entidades.Seguridad;
+using Infrastructure.Repository;
 using Infrastructure.Seguridad;
 using Infrastructure.Services;
 using Infrastructure.Services.Mail;
+using MailGateway.Hubs.Mail;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Shared.Helper;
 
@@ -14,9 +16,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR(); // Register SignalR for real-time notifications
 
-/*
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+
+/*builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/Home/Index";
@@ -30,8 +33,9 @@ builder.Services.AddScoped<IEmailSenderService, EmailSendServices>(); // Registe
 builder.Services.AddScoped<IEmailReaderService, EmailReaderService>(); // Register the email service
 builder.Services.AddScoped<IEmailReaderMessageService, EmailReaderMessageService>(); // Register the email service
 builder.Services.AddScoped<INotificationStore, NotificationStoreServices>(); // Register the email service
-//builder.Services.AddScoped<ICredentialProvider, CredentialProvider>();
+builder.Services.AddScoped<ICredentialProvider, CredentialProvider>();
 
+builder.Services.AddScoped<UsuarioRepository>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IAuthServices, AuthServices>();
 
@@ -61,6 +65,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapHub<MailHub>("/MailHub"); // Map the SignalR hub
 
 app.MapControllerRoute(
     name: "default",

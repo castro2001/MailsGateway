@@ -21,8 +21,6 @@ namespace Shared.Helper
         }
 
 
-
-
         public static string FormatearHora(DateTime fecha)
         {
             var ahora = DateTime.Now;
@@ -48,6 +46,16 @@ namespace Shared.Helper
             // "d MMM yyyy, H:mm" → 1 jun 2025, 8:07
             return fecha.ToString("d MMM yyyy, H:mm", cultura);
         }
+
+        public static string FormatearDesdeTexto(DateTime fechaTexto)
+        {
+            var cultura = new System.Globalization.CultureInfo("es-ES");
+
+
+            string diaSemana = cultura.DateTimeFormat.GetAbbreviatedDayName(fechaTexto.DayOfWeek).ToLower();
+            return $"El {diaSemana}, {fechaTexto.ToString("dd MMM yyyy", cultura)} a las {fechaTexto:HH:mm}";
+        }
+
 
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Shared.Helper;
 using Microsoft.AspNetCore.Authorization;
+using Application.DTO.Mail;
 namespace MailGateway.Controllers
 {
     //[Authorize]
@@ -26,14 +27,11 @@ namespace MailGateway.Controllers
 
         public IActionResult Index()
         {
-            var correos =  _emailReaderService.LeerMensajesRecibidos();
-            //ncriptar UID aquí
-            foreach (var correo in correos)
-           {
-                correo.EncryptedUid = _cryptoHelper.Encrypt(correo.Uid.ToString());
-            }
-
-            return View(correos);
+            string errorMessage;
+            var mensajes = _emailReaderService.LeerMensajesRecibidos(out errorMessage);
+            if (!string.IsNullOrEmpty(errorMessage))
+                ViewBag.ErrorMessage = errorMessage;
+            return View(mensajes);
         }
 
         public IActionResult Detalle( string uid )
@@ -41,7 +39,26 @@ namespace MailGateway.Controllers
             string uidDesencriptado = _cryptoHelper.Decrypt(uid);
             uint uidValor = uint.Parse(uidDesencriptado);
             var correo = _emailReaderService.DetalleCorreo(uidValor);
-            return View(correo);
+
+            var fecha = FechaHelper.FormatearFecha(correo.Fecha);
+            var fechaEmail = FechaHelper.FormatearComoEmail(correo.Fecha);
+            var EmailBase = new EmailMessageBase()
+            {
+                Uid = _cryptoHelper.Encrypt(correo.Uid.ToString()), // UID del correo original, no encriptado
+                Para = correo.Para,
+                De = correo.De,
+                Contenido = correo.Contenido,
+                Asunto = correo.Asunto,
+                FechaFormateada = fecha,
+                Fecha = correo.Fecha,
+                EnviadorPor = correo.EnviadoPor,
+                FirmadoPor = correo.FirmadoPor,
+                Seguridad = correo.Seguridad,
+                Adjuntos = correo.Adjuntos
+
+            };
+
+            return View(EmailBase);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -96,8 +96,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE1haWxcRW1haWxUZW1wbGF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Shared/Mail/_Adjuntos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE1haWxcX0FkanVudG9zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Shared/Mail/_Detalle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE1haWxcX0RldGFsbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Shared/Mail/_ImagenesAdjuntos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE1haWxcX0ltYWdlbmVzQWRqdW50b3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Shared/Mail/_Reenviar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE1haWxcX1JlZW52aWFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Shared/Mail/_Responder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE1haWxcX1Jlc3BvbmRlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Jordan Castro/Documents/GitHub/MailsGateway/src/MailGateway/Views/Shared/_NavBar.cshtml]

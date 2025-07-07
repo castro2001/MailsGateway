@@ -1,50 +1,48 @@
-﻿
-@using Shared.Helper;
-@{
-    var fecha = FechaHelper.FormatearFecha(Model.Fecha);
-    var fechaEmail = FechaHelper.FormatearComoEmail(Model.Fecha);
-}
-<div class="card-body p-0">
+﻿@model Application.DTO.Mail.EmailMessageBase
 
-    <div class="mailbox-read-info">
+@using Shared.Helper;  
+@{  
+    var fecha = FechaHelper.FormatearFecha(Model.Fecha);  
+    var fechaEmail = FechaHelper.FormatearComoEmail(Model.Fecha);  
+}  
+<div class="card-body p-0">  
 
-        <div class="media">
-            <img src="~/Imagen/Perfil/usuario.png" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-            <div class="media-body">
-                <header class="dropdown-item-title">
-                    <h6 class="fw-bold">@Model.De</h6>
+    <div class="mailbox-read-info">  
+
+        <div class="media">  
+            <img src="~/Imagen/Perfil/usuario.png" alt="User Avatar" class="img-size-50 mr-3 img-circle">  
+            <div class="media-body">  
+                <header class="dropdown-item-title">  
+                    <h6 class="fw-bold">@Model.De</h6>  
                   
-                    <div class="btn-group">
-                        <button class="text-black fs-6 mr-2 btn p-0 border-0 bg-transparent shadow-none" type="button">
-                            para:@Model.Para
-                        </button>
-                        <button type="button" class="text-black btn p-0 border-0 bg-transparent shadow-none dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="visually-hidden">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu px-5 py-2">
-                            <li style="white-space: nowrap;">De: <b>@Model.De</b></li>
-                            <li style="white-space: nowrap;">Para: <b>@Model.Para</b></li>
-                            <li style="white-space: nowrap;">Fecha: <b>@fechaEmail</b></li>
-                            <li style="white-space: nowrap;">Asunto: <b>@Model.Asunto</b></li>
-                            <li style="white-space: nowrap;">Enviador por: <b>@Model.EnviadoPor</b></li>
-                            <li style ="white-space: nowrap;">Firmado Por: <b>@Model.FirmadoPor</b></li>
-                            <li style="white-space: nowrap;">Seguridad: Cifrado Estandar<b>@Model.Seguridad</b></li>
-                        </ul>
-                    </div>
-                </header>
+                    <div class="btn-group">  
+                        <button class="text-black fs-6 mr-2 btn p-0 border-0 bg-transparent shadow-none" type="button">  
+                            para:@Model.Para  
+                        </button>  
+                        <button type="button" class="text-black btn p-0 border-0 bg-transparent shadow-none dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">  
+                            <span class="visually-hidden">Toggle Dropdown</span>  
+                        </button>  
+                        <ul class="dropdown-menu px-5 py-2">  
+                            <li style="white-space: nowrap;">De: <b>@Model.De</b></li>  
+                            <li style="white-space: nowrap;">Para: <b>@Model.Para</b></li>  
+                            <li style="white-space: nowrap;">Fecha: <b>@Model.FechaFormateada</b></li>  
+                            <li style="white-space: nowrap;">Asunto: <b>@Model.Asunto</b></li>  
+                            <li style="white-space: nowrap;">Enviador por: <b>@Model.EnviadorPor</b></li>  
+                            <li style ="white-space: nowrap;">Firmado Por: <b>@Model.FirmadoPor</b></li>  
+                            <li style="white-space: nowrap;">Seguridad: Cifrado Estandar<b>@Model.Seguridad</b></li>  
+                        </ul>  
+                    </div>  
+                </header>  
                 
-            </div>
-            <span class="mailbox-read-time float-right">
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>@fecha </p>
-            </span>
-        </div>
+            </div>  
+            <span class="mailbox-read-time float-right">  
+                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>@Model.Fecha </p>  
+            </span>  
+        </div>  
 
-
-       
-        
-    </div>
-    <div class="mailbox-read-message" style="font-family: Arial, sans-serif; font-size: 15px; line-height: 1.6;">
-        @Html.Raw(Model.Contenido)
+    </div>  
+    <div class="mailbox-read-message" style="font-family: Arial, sans-serif; font-size: 15px; line-height: 1.6;">  
+        @Html.Raw(Model.Contenido)  
     </div>
 
 </div>

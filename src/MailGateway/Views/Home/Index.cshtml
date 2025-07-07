@@ -2,6 +2,8 @@
 
 @using Shared.Helper;
 
+
+
 @{
     ViewData["Title"] = "Bandeja de Entrada";
     ViewData["HeaderTitle"] = "Bandeja de Entrada";
@@ -67,11 +69,21 @@
         </div>
         <div class="card-body p-0">
 
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+
+            @foreach (var email in Model)
+            {
+               
+
             <div class="table-responsive mailbox-messages">
                 <table class="table table-hover table-striped">
                     <tbody>
-                        @foreach (var email in Model)
-                        {
+
 
                             <tr onclick="window.location.href='@Url.Action("Detalle", "Home", new { uid = email.EncryptedUid })'" style="cursor:pointer;">
 
@@ -94,7 +106,7 @@
                                 <td class="mailbox-date">@FechaHelper.FormatearHora(email.Fecha)</td>
 
                             </tr>
-                        }
+                       
 
 
 
@@ -102,6 +114,7 @@
                 </table>
                 <!-- /.table -->
             </div>
+            }
             <!-- /.mail-box-messages -->
         </div>
 

@@ -1,0 +1,107 @@
+﻿@model Application.DTO.Mail.ForwardEmailDto
+
+
+<!-- Inicio Reenviar Collapse -->
+<section class="collapse  p-3" id="collapseReenviar">
+    <form asp-action="Reenviar" asp-controller="Redactar" method="post">
+        @Html.AntiForgeryToken()
+
+        <section class="d-flex gap-2">
+            <figure>
+                <img class="rounded-circle" src="https://lh3.googleusercontent.com/a/ACg8ocKeatyERJ8DYrxH5jTP2L2gvAHf9f6n8ferdsq2-6OrA4-wCw=s40-p-mo" alt="" srcset="">
+            </figure>
+
+            <article class="card card-outline w-100">
+                <header class="card-header d-flex">
+                    <div>
+                        <button type="button" class="btn btn-default dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-share"></i> <span class="sr-only"></span>
+                        </button>
+                        <menu class="dropdown-menu">
+                            <a class="dropdown-item" data-bs-toggle="collapse" href="#collapseResponder" onclick="removeCollapseReenviar()"> <i class="fas fa-reply"></i>  Responder</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" data-bs-toggle="collapse" href="#collapseReenviar" onclick="removeCollapseRespo()"> <i class="fas fa-share"></i> Reenviar</a>
+                            <!-- <a class="dropdown-item" href="#">Editar Asunto</a> -->
+                        </menu>
+                    </div>
+
+                    <input class=" ml-1 pt-2 form-control para" style="border: none; outline: none;" asp-for="NuevoDestinatario" placeholder="Destinatario" />
+
+
+                </header>
+                <section class="card-body">
+
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Ingrese su contenido de respuesta" asp-for="ContenidoRespuesta">
+                        <p>---------- Forwarded message ---------</p>
+                        <p>De: <b>@Model.De</b> @Model.Para</p>
+                        <p>Fecha: @Model.Fecha</p>
+                        <p>Asunto: @Model.Asunto</p>
+                        <p>@Html.Raw(Model.Contenido)</p>
+                        </textarea>
+                    </div>
+                   
+
+                    <section class="card-body">
+                        
+                        <input type="hidden" asp-for="Asunto" value="@Model.Asunto" />
+                        <input type="hidden" asp-for="Fecha" value="@Model.Fecha" />
+                     
+                        <input type="hidden" asp-for="De" value="@Model.De" />
+                        <input type="hidden" asp-for="Para" value="@Model.Para" />
+                        <input type="text" asp-for="Uid" value="@Model.Uid" />
+                        @if (Model.Adjuntos != null && Model.Adjuntos.Any(a => a.EsImagen))
+                        {
+                            <div class="mt-4">
+                                <h6><i class="fas fa-image"></i> Imágenes adjuntas:</h6>
+                                <div class="row">
+                                    @foreach (var imagen in Model.Adjuntos.Where(a => a.EsImagen))
+                                    {
+                                        <input type="hidden" asp-for="Adjuntos" value="@Model.Adjuntos" />
+                                        var base64 = Convert.ToBase64String(imagen.Datos);
+                                        var dataUrl = $"data:{imagen.TipoMime};base64,{base64}";
+                                        <div class="col-md-4 mb-3">
+                                            <div class="border p-2 bg-white text-center rounded shadow-sm">
+                                                <img src="@dataUrl" class="img-fluid rounded mb-2" alt="@imagen.Nombre" style="max-height: 200px;" />
+                                                <p class="small">@imagen.Nombre</p>
+                                                <a class="btn btn-sm btn-outline-primary" href="@dataUrl" download="@imagen.Nombre">
+                                                    <i class="fas fa-download"></i> Descargar
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                        @if (Model.Adjuntos != null && Model.Adjuntos.Any(a => !a.EsImagen))
+                        {
+                            <div class="mt-4">
+                                <h6><i class="fas fa-paperclip"></i> Archivos adjuntos:</h6>
+                                <ul class="list-group">
+                                    @foreach (var archivo in Model.Adjuntos.Where(a => !a.EsImagen))
+                                    {
+                                        var base64 = Convert.ToBase64String(archivo.Datos);
+                                        var dataUrl = $"data:{archivo.TipoMime};base64,{base64}";
+                                        var nombreArchivo = Uri.EscapeDataString(archivo.Nombre);
+
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <span>@archivo.Nombre</span>
+                                            <a class="btn btn-sm btn-outline-secondary" href="@dataUrl" download="@nombreArchivo">
+                                                <i class="fas fa-download"></i> Descargar
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+
+                    </section>>
+
+
+                </section>
+            </article>
+        </section>
+        <button class="btn btn-primary ml-5">Enviar</button>
+    </form>
+</section>

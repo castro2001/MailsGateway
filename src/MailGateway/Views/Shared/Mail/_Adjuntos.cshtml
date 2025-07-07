@@ -1,0 +1,61 @@
+﻿@model Application.DTO.Mail.EmailMessageBase
+@using System.IO
+
+
+<ul class="mailbox-attachments d-flex align-items-stretch clearfix">
+
+    @if (Model.Adjuntos != null && Model.Adjuntos.Any(a => !a.EsImagen))
+    {
+   
+         @foreach (var archivo in Model.Adjuntos.Where(a => !a.EsImagen))
+                {
+                    var base64 = Convert.ToBase64String(archivo.Datos);
+                    var dataUrl = $"data:{archivo.TipoMime};base64,{base64}";
+                    var nombreArchivo = Uri.EscapeDataString(archivo.Nombre);
+            /*Logica para mostrar el tamaño de un archivo */
+                    long tamanioBytes = archivo.Datos.Length;
+            
+                    string tamanioTexto = tamanioBytes
+
+                    switch
+                    {
+                        >= 1024 * 1024 => $"{(tamanioBytes / 1024.0 / 1024.0):0.##} MB",
+                        >= 1024 => $"{(tamanioBytes / 1024.0):0.#} KB",
+                        _ => $"{tamanioBytes} bytes"
+                    };
+            // Lógica para íconos
+            // Icono según extensión
+            string extension = System.IO.Path.GetExtension(archivo.Nombre).ToLowerInvariant();
+            string icono = extension switch
+            {
+                ".pdf" => "far fa-file-pdf text-danger",
+                ".doc" or ".docx" => "far fa-file-word text-primary",
+                ".xls" or ".xlsx" => "far fa-file-excel text-success",
+                ".ppt" or ".pptx" => "far fa-file-powerpoint text-warning",
+                ".txt" => "far fa-file-alt text-muted",
+                ".zip" or ".rar" => "far fa-file-archive text-secondary",
+                ".mp3" or ".wav" => "far fa-file-audio text-info",
+                ".mp4" or ".avi" or ".mov" => "far fa-file-video text-info",
+                _ => "far fa-file text-secondary"
+            };
+
+
+                <li>
+                <span class="mailbox-attachment-icon" style="font-size: 48px;">
+                    <i class="@icono"></i>
+                </span>
+
+                    <div class="mailbox-attachment-info">
+                        <a href="#" class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> @archivo.Nombre</a>
+                        <span class="mailbox-attachment-size clearfix mt-1">
+                        <span>@tamanioTexto</span>
+                             <a href="@dataUrl" download="@nombreArchivo" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
+                        </span>
+                    </div>
+                </li>
+                }
+       
+    }
+
+
+</ul>

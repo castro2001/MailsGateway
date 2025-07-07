@@ -4,7 +4,7 @@ namespace Application.Interfaces
 {
     public interface IEmailReaderService
     {
-        List<InboxMessage> LeerMensajesRecibidos();
+        List<InboxMessage> LeerMensajesRecibidos(out string errorMessage);
         InboxMessage DetalleCorreo(uint id);
     }
 }

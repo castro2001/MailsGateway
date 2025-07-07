@@ -1,22 +1,21 @@
 ﻿using Application.DTO;
 using Application.DTO.Usuarios;
+using Application.Interfaces;
 using Domain.Entidades.Seguridad;
 using Shared.Helper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Infrastructure.Repository
 {
     public class UsuarioRepository
     {
         //private readonly ApplicationDbContext _context;
+        private readonly INotificationStore _notificationStore;
         private readonly CryptoHelper _cryptoHelper;
-        public UsuarioRepository( CryptoHelper cryptoHelper)
+        public UsuarioRepository( CryptoHelper cryptoHelper, INotificationStore notificationStore)
         {
             //_context = appDBContext;
+            _notificationStore = notificationStore;
             _cryptoHelper = cryptoHelper;
         }
         public async Task<Usuario?> ValidarUsuarioAsync(LoginDTO usuario)
@@ -33,15 +32,20 @@ namespace Infrastructure.Repository
                 // Verificar si la contraseña ingresada coincide con el hash guardado
                 bool claveValida = SecurityHelper.VerifyPassword(usuario.Clave, usuarioEncontrado.Clave);
                 return claveValida ? usuarioEncontrado : null;*/
-                Usuario users = new Usuario
-                {
-                    CorreoElectronico = "jordanlino83@gmail.com",
-                    Nombre = "Jordan"
-                };
-                return users; 
+                // Buscar usuario en el "almacén" de memoria
+                var usuarios = _notificationStore.Obtener(obj => obj as Usuario);
+                var usuarioEncontrado = usuarios
+                    .FirstOrDefault(u => u != null && u.CorreoElectronico == usuario.CorreoElectronico);
+
+                if (usuarioEncontrado == null)
+                    return null;
+
+                // Verificar la clave
+                bool claveValida = SecurityHelper.VerifyPassword(usuario.Clave, usuarioEncontrado.Clave);
+                return claveValida ? usuarioEncontrado : null;
 
 
-                }
+            }
             catch (Exception ex)
             {
                 // Puedes registrar el error con un logger si tienes uno configurado
@@ -62,8 +66,9 @@ namespace Infrastructure.Repository
                     PasswordSecret = _cryptoHelper.Encrypt(usuario.LlaveSecreta),
                 };
 
-              //  await _context.usuarios.AddAsync(nuevoUsuario);
-              //  await _context.SaveChangesAsync();
+                _notificationStore.Agregar(nuevoUsuario);
+                //  await _context.usuarios.AddAsync(nuevoUsuario);
+                //  await _context.SaveChangesAsync();
 
                 return (true, "Registro Guardado Correctamente");
             }
@@ -80,12 +85,9 @@ namespace Infrastructure.Repository
             {
                 /*var usuarioEncontrado = await _context.usuarios
                     .FirstOrDefaultAsync(u => u.CorreoElectronico == correo);*/
-                var usuarioEncontrado = new Usuario
-                {
-                    CorreoElectronico = "jordanlino83@gmail.com"
-                };
+                var usuarios = _notificationStore.Obtener(obj => obj as Usuario);
+                return usuarios.FirstOrDefault(u => u != null && u.CorreoElectronico == correo);
 
-                return usuarioEncontrado;
             }
             catch (Exception ex)
             {

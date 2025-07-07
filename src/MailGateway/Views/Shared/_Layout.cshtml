@@ -1,16 +1,23 @@
-﻿<!DOCTYPE html>
+﻿@* @inject INotificationStore _notificationStore *@
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MailGateway</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="~/css/adminlte.min.css">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.min.css">
-  
+    <!-- Inter (para títulos y botones) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Roboto (para texto general y menús) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -61,171 +68,22 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
-    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/adminlte.min.js" asp-append-version="true"></script>
     <script src="~/js/demo.js"> </script>
+    <script src="~/js/notificaciones.js"></script>
 
 
     <script>
-             function ObtenerMensajesEnviados() {
-            const avatarUrl = '@Url.Content("~/Imagen/Perfil/usuario.png")';
-            const href = '@Url.Action("Index", "Enviados")';
-
-            $.ajax({
-                url: '@Url.Action("ObtenerMensajesEnviados", "Notification")',
-                type: 'GET',
-                success: function (data) {
-                    const lista = document.getElementById("messagesReceived");
-                    const contador = document.querySelectorAll(".messagesReceivedCount");
-
-                    lista.innerHTML = "";
-
-                    if (data.status !== "ok") {
-                         contador.forEach(item => {
-                            item.innerText = "0";
-                            item.style.display = "inline-block";
-                        });
-
-
-                        const item = document.createElement("li");
-                        item.innerHTML = `
-                            <a href="#" class="dropdown-item">
-                                <div class="media">
-                                    <img src="${avatarUrl}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            ${data.mensaje}
-                                            <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i></p>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                        `;
-                        lista.appendChild(item);
-                        return; // Salimos porque no hay más datos
-                    }
-
-                    const mensajes = data.data;
-                    const cantidadMensajes = mensajes.length;
-                    if (mensajes.length > 0) {
-                         // Mostrar contador (badge)
-                    contador.forEach(item => {
-                        item.innerText = cantidadMensajes;
-                        item.style.display = "inline-block";
-                    });
-
-                    } else {
-                        contador.forEach(item => {
-                        item.innerText = 0;
-                        item.style.display = "inline-block";
-                    })
-                    }
-
-                    mensajes.forEach(noti => {
-                        const item = document.createElement("li");
-                        item.innerHTML = `
-                            <a href="${href}" class="dropdown-item">
-                                <div class="media">
-                                    <img src="${avatarUrl}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            ${noti.titulo}
-                                            <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">${noti.mensaje}</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> ${noti.fecha}</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                        `;
-                        lista.appendChild(item);
-                    });
-                },
-                error: function () {
-                    console.error('Error loading notifications.');
-                }
-            });
-        }
-
-            function ObtenerMensajesRecibidos() {
-            const avatarUrl = '@Url.Content("~/Imagen/Perfil/avatar.png")';
-            const href = '@Url.Action("Index", "Enviados")';
-
-            $.ajax({
-                url: '@Url.Action("ObtenerMensajesRecibidos", "Notification")',
-                type: 'GET',
-                success: function (data) {
-                    const lista = document.getElementById("inboxBar");
-                    const contador = document.querySelectorAll(".InboxCount");
-
-                    console.log('------ObtenerMensajesRecibidos ----');
-                    console.log(data);
-                    console.log('------Fin ----');
-
-                    lista.innerHTML = "";
-
-                    if (data.status !== "ok") {
-                        contador.forEach(item => {
-                            item.innerText = "0";
-                            item.style.display = "inline-block";
-                        });
-
-                        const item = document.createElement("li");
-                        item.innerHTML = `
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-envelope mr-2"></i> ${data.mensaje}
-                                <span class="float-right text-muted text-sm"></span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                        `;
-                        lista.appendChild(item);
-                        return;
-                    }
-
-                    const mensajes = data.data;
-                    const cantidadMensajes = mensajes.length;
-
-                    // Mostrar contador (badge)
-                    contador.forEach(item => {
-                        item.innerText = cantidadMensajes;
-                        item.style.display = "inline-block";
-                    });
-
-                    // Agregar un solo ítem con el número total
-                    const item = document.createElement("li");
-                    item.innerHTML = `
-                        <div class="dropdown-divider"></div>
-                        <a href="${href}" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> ${cantidadMensajes} Nuevos Mensajes
-                            <span class="float-right text-muted text-sm"></span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                    `;
-                    lista.appendChild(item);
-                },
-                error: function () {
-                    console.error('Error loading notifications.');
-                }
-            });
-        }
 
         $(document).ready(function () {
             ObtenerMensajesEnviados();
             setInterval(ObtenerMensajesEnviados, 5000); // Actualiza cada 5 segundos
-
             ObtenerMensajesRecibidos();
-
-                 setInterval(ObtenerMensajesRecibidos, 5000);
+           setInterval(ObtenerMensajesRecibidos, 5000);
         });
-
-
-
-
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 

@@ -1,5 +1,5 @@
 ﻿using Application.DTO;
-using Application.DTOS;
+using Application.DTO.Mail;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -84,7 +84,7 @@ namespace MailGateway.Controllers
                 ViewBag.Error = "El campo Asunto es obligatorio";
                 return View();
             }
-            var email = new EmailDTO
+            var email = new ComposeEmailDto
             {
                 Para = plantillaDTO.Para,
                 Asunto = plantillaDTO.Asunto,

@@ -46,7 +46,7 @@ namespace MailGateway.Controllers.Mail
             return Json(new { status = "ok", mensaje = "Mensajes cargados", data = mensajesRecibidos });
         }
 
-
+  
 
         public IActionResult LimpiarNotificaciones()
         {

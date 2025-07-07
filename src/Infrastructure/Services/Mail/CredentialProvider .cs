@@ -5,7 +5,7 @@ using Shared.Helper;
 
 namespace Domain.Entidades.Mail
 {
-    public class CredentialProvider 
+    public class CredentialProvider : ICredentialProvider
     {
         private readonly UsuarioRepository _usuarioRepository;
         private readonly CryptoHelper _cryptoHelper;

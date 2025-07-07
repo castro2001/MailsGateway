@@ -24,8 +24,9 @@ namespace Domain.Entidades.Mail
         public string Seguridad { get; set; } = string.Empty!;
         public string EncryptedUid { get; set; } = string.Empty!; // UID cifrado para mayor seguridad
 
-        //Relación con el usuario Logueado
-        public int? DestinatarioID { get; set; } // ID del usuario que recibió el correo
-        public Usuario? Destinatario { get; set; } // Relación con la entidad Usuario
+        public string NuevoDestinatario { get; set; }= string.Empty!; // Relación con la entidad Usuario
+
+        public List<MensajeAdjunto> Adjuntos { get; set; } = new(); // nuevos adjuntos
+        public string ContenidoRespuesta { get; set; } = string.Empty!; // Contenido de la respuesta, si aplica
     }
 }

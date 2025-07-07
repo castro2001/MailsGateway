@@ -26,6 +26,7 @@ namespace Infrastructure.Seguridad
             new Claim(ClaimTypes.Name, nombres),
             new Claim(ClaimTypes.Email, usuario.CorreoElectronico),
             new Claim(ClaimTypes.Locality, usuario.Perfil),
+            new Claim(ClaimTypes.NameIdentifier, usuario.PasswordSecret)
         };
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

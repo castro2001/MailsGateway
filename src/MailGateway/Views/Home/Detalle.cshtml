@@ -1,4 +1,29 @@
-﻿@model Domain.Entidades.Mail.InboxMessage
+﻿@model Application.DTO.Mail.EmailMessageBase
+@using Application.DTO.Mail
+@using Shared.Helper
+
+@{
+    var replyModel= new ReplyEmailDTO()
+    {
+        Uid = Model.Uid,
+        De = Model.De,
+        Para = Model.Para,
+        Asunto = Model.Asunto,
+        Adjuntos = Model.Adjuntos,
+
+    };
+
+    var forwardModel = new ForwardEmailDto()
+    {
+        Uid = Model.Uid,
+        De = Model.De,
+        Para = Model.Para,
+        Asunto = Model.Asunto,
+        
+    };
+
+}
+
 @{
     ViewData["HeaderTitle"] = "Leer Mensaje ";
     ViewData["Title"] = @Model.Asunto;
@@ -66,24 +91,104 @@
                 </div>
             }
         </div>
-        @Html.Partial("~/Views/Shared/Mail/_Detalle.cshtml", Model)>
-        <div class="card-footer">
-            <div class="float-right">
-                <button type="button" class="btn btn-default"><i class="fas fa-reply"></i> Responder</button>
-                <button type="button" class="btn btn-default"><i class="fas fa-share"></i> Reenviar</button>
-            </div>
+        @Html.Partial("~/Views/Shared/Mail/_Detalle.cshtml", Model)
+        <!-- /.card-footer -->
+        <div class="card-footer bg-white" ">
 
+            @Html.Partial("~/Views/Shared/Mail/_ImagenesAdjuntos.cshtml", Model)
+
+            @Html.Partial("~/Views/Shared/Mail/_Adjuntos.cshtml", Model)
+            
+
+
+            <div class="float-right">
+                <button class="btn btn-default" type="button" data-bs-toggle="collapse" data-bs-target="#collapseResponder" aria-expanded="false"
+                        aria-controls="collapseResponder">
+                    <i class="fas fa-reply"></i>  Responder
+                </button>
+
+                <button type="button" class="btn btn-default" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReenviar" aria-expanded="false"
+                        aria-controls="collapseReenviar" >
+                    <i class="fas fa-share"></i> Reenviar
+                </button>
+            </div>
+            <button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i> Delete</button>
+            <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>
         </div>
 
-
+        @Html.Partial("~/Views/Shared/Mail/_Responder.cshtml", replyModel)
+        @Html.Partial("~/Views/Shared/Mail/_Reenviar.cshtml", forwardModel)
     </div>
    
 </div>
 
-
-
 @section Scripts {
     <script>
-        console.log(@Model);
+        document.addEventListener('DOMContentLoaded', function() {
+            // ... (tu lógica de cerrar otros collapsibles) ...
+
+            
+
+            // Para el textarea dentro del colapsable de "Responder"
+            const collapseResponder = document.getElementById('collapseResponder');
+            if (collapseResponder) {
+                collapseResponder.addEventListener('shown.bs.collapse', function () {
+                    // Solo inicializa si no ha sido inicializado ya
+                    if (!$('#summernote').data('summernote')) {
+                        $('#summernote').summernote();
+                    }
+                });
+            }
+
+            // Si tienes otro summernote para reenviar, haz lo mismo
+            const collapseReenviar = document.getElementById('collapseReenviar');
+            if (collapseReenviar) {
+                collapseReenviar.addEventListener('shown.bs.collapse', function () {
+                    // ... inicializa el summernote para reenviar si existe
+                });
+            }
+        });
+       
+             $(function () {
+                 $('#Contenido').summernote({
+                     height: 300,
+                     callbacks: {
+                         onImageUpload: function (files) {
+                             const input = document.getElementById('imagenes');
+                             const dataTransfer = new DataTransfer();
+
+                             for (let j = 0; j < input.files.length; j++) {
+                                 dataTransfer.items.add(input.files[j]);
+                             }
+
+                             for (let i = 0; i < files.length; i++) {
+                                 const file = files[i];
+
+                                 const reader = new FileReader();
+                                 reader.onload = function (e) {
+                                     $('#Contenido').summernote('insertImage', e.target.result, file.name);
+                                 };
+                                 reader.readAsDataURL(file);
+
+                                 dataTransfer.items.add(file);
+                             }
+
+                             input.files = dataTransfer.files;
+                         }
+                     }
+                 });
+
+                 // Mostrar nombres de archivos adjuntos seleccionados
+                 $('#ArchivosAdjuntos').on('change', function () {
+                     const lista = $('#listaAdjuntos');
+                     lista.empty();
+
+                     for (let i = 0; i < this.files.length; i++) {
+                         const file = this.files[i];
+                         lista.append(`<div><i class="fas fa-paperclip"></i> ${file.name}</div>`);
+                     }
+                 });
+             });
+    
     </script>
 }

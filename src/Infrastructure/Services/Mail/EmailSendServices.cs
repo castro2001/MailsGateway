@@ -1,7 +1,8 @@
 ﻿using Application.DTO;
-using Application.DTOS;
+using Application.DTO.Mail;
 using Application.Interfaces;
 using Domain.Entidades.Mail;
+using MailKit;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using PreMailer.Net;
@@ -24,7 +25,7 @@ namespace Infrastructure.Services.Mail
             _notificationStore = notificationStore;
         }
 
-        public EmailResponse SendEmail(EmailDTO request)
+        public EmailResponse SendEmail(ComposeEmailDto request)
         {
             var email = new MimeMessage();
 
@@ -134,7 +135,139 @@ namespace Infrastructure.Services.Mail
             };
         }
 
+        public EmailResponse ReenviarCorreo(ForwardEmailDto mensaje)
+        {
+            using var client = _emailConnectionProvider.GetImapClient();
+            var inbox = client.Inbox;
+            inbox.Open(FolderAccess.ReadOnly);
+            // Buscar el mensaje por UID
+            var uid = new UniqueId(uint.Parse(mensaje.Uid));
+            var mensajeOriginal = inbox.GetMessage(uid);
+
+            // Crear un nuevo mensaje para reenviar
+            var mensajeReenviado = new MimeMessage();
+            mensajeReenviado.From.Add(MailboxAddress.Parse(_configuration["Email:Username"]));
+            mensajeReenviado.To.Add(MailboxAddress.Parse(mensaje.NuevoDestinatario));
+            mensajeReenviado.Subject = "Fwd: " + mensajeOriginal.Subject;
+
+            var builder = new BodyBuilder();
+
+            // Reenviar contenido del mensaje original
+            var cuerpoOriginal = mensajeOriginal.HtmlBody ?? mensajeOriginal.TextBody ?? "";
+            builder.HtmlBody = $"<p>---------- Mensaje reenviado ---------</p>" +
+                               $"<p><strong>De:</strong> {mensajeOriginal.From}</p>" +
+                               $"<p><strong>Asunto:</strong> {mensajeOriginal.Subject}</p>" +
+                               $"<p><strong>Fecha:</strong> {mensajeOriginal.Date}</p>" +
+                               $"<hr />{cuerpoOriginal}";
 
 
+            // Reenviar adjuntos (opcional)
+            foreach (var adjunto in mensajeOriginal.Attachments)
+            {
+                if (adjunto is MimePart part)
+                {
+                    string mimeType = part.ContentType.MimeType;
+                    if (!mimeType.StartsWith("image/") && !mimeType.Equals("application/pdf"))
+                        continue; // No reenviar archivos sospechosos
+
+                    using var stream = new MemoryStream();
+                    part.Content.DecodeTo(stream);
+                    stream.Position = 0;
+                    builder.Attachments.Add(part.FileName, stream.ToArray(), ContentType.Parse(part.ContentType.MimeType));
+                }
+            }
+            mensajeReenviado.Body = builder.ToMessageBody();
+            try
+            {
+                using var smtp = _emailConnectionProvider.GetSmtpClient();
+                smtp.Send(mensajeReenviado);
+                smtp.Disconnect(true);
+
+                _notificationStore.Agregar(new NotificationDTO
+                {
+                    Titulo = "Mensaje del Correo Reenviado",
+                    Mensaje = $"El correo se ha enviado correctamente a {mensaje.NuevoDestinatario}. ",
+                    Icono = "fas fa-envelope",
+                    Url = "/Enviados/Index"
+                });
+
+                return new EmailResponse
+                {
+                    Success = true,
+                    Asunto = mensaje.Asunto
+                };
+            }
+            catch (Exception ex)
+            {
+                return new EmailResponse
+                {
+                    Success = false,
+                    ErrorMessage = ex.Message
+                };
+            }
+        }
+
+        public EmailResponse ResponderCorreo(ReplyEmailDTO mensaje)
+        {
+            using var client = _emailConnectionProvider.GetImapClient();
+            var inbox = client.Inbox;
+            inbox.Open(FolderAccess.ReadOnly);
+
+            var uid = new UniqueId(uint.Parse(mensaje.Uid));
+            var mensajeOriginal = inbox.GetMessage(uid);
+
+            var mensajeRespuesta = new MimeMessage();
+            mensajeRespuesta.From.Add(MailboxAddress.Parse(_configuration["Email:Username"]));
+            mensajeRespuesta.To.AddRange(mensajeOriginal.ReplyTo.Count > 0 ? mensajeOriginal.ReplyTo : mensajeOriginal.From);
+            mensajeRespuesta.Subject = "Re: " + mensajeOriginal.Subject;
+
+            var builder = new BodyBuilder();
+
+            // Contenido del usuario (mensaje personalizado)
+            string contenidoUsuario = mensaje.ContenidoRespuesta;
+
+            // Cuerpo del mensaje original (encabezado tipo reply)
+            var cuerpoOriginal = mensajeOriginal.HtmlBody ?? mensajeOriginal.TextBody ?? "";
+            string replyFormat = $"<br><br>----- Mensaje original -----<br>" +
+                                 $"<strong>De:</strong> {mensajeOriginal.From}<br>" +
+                                 $"<strong>Fecha:</strong> {mensajeOriginal.Date}<br>" +
+                                 $"<strong>Asunto:</strong> {mensajeOriginal.Subject}<br><br>" +
+                                 $"{cuerpoOriginal}";
+
+            builder.HtmlBody = contenidoUsuario + replyFormat;
+
+            mensajeRespuesta.Body = builder.ToMessageBody();
+
+            try
+            {
+                using var smtp = _emailConnectionProvider.GetSmtpClient();
+                smtp.Send(mensajeRespuesta);
+                smtp.Disconnect(true);
+
+                _notificationStore.Agregar(new NotificationDTO
+                {
+                    Titulo = "Mensaje de respuesta enviado",
+                    Mensaje = $"Se respondió correctamente a {mensajeRespuesta.To}.",
+                    Icono = "fas fa-reply",
+                    Url = "/Enviados/Index"
+                });
+
+                return new EmailResponse
+                {
+                    Success = true,
+                    Asunto = mensajeRespuesta.Subject
+                };
+            }
+            catch (Exception ex)
+            {
+                return new EmailResponse
+                {
+                    Success = false,
+                    ErrorMessage = ex.Message
+                };
+            }
+        }
+
+    
     }
 }
